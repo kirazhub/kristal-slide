@@ -62,27 +62,27 @@ const UI_ELEMANLARI = {
   },
   hedef_kutu: {
     dosya: 'hedef-kutu.png',
-    en: 768,
-    boy: 512,
-    prompt: `3D rendered fantasy game UI frame panel, ornate purple-silver metal border frame with gem decorations on corners, horizontal rounded rectangle shape, shiny polished silver metallic surface with purple crystal accents, glowing center area empty ready for text, royal medieval fantasy style, mobile match-3 game UI asset, candy crush saga style frame, bejeweled game style, ultra glossy, vibrant silver and purple with jewel accents, centered composition on solid pure white background, no shadow, empty inside, highly detailed, 8k render`
+    en: 960,
+    boy: 480,
+    prompt: `3D rendered fantasy game UI scroll banner panel, ornate ancient magical parchment scroll with golden rolled edges on left and right sides, rich deep purple-blue glowing surface in center with runes and magical symbols faintly visible, glowing center area large and empty ready for text, corners decorated with small crystal gems, royal medieval fantasy epic style, mobile match-3 game UI asset, candy crush saga style frame, bejeweled game style, ultra glossy metallic gold and mystical purple-blue, vibrant colors, centered composition on solid pure white background, no shadow, empty clear center, highly detailed, 8k render`
   },
   guc_cekic: {
     dosya: 'guc-cekic.png',
     en: 512,
     boy: 512,
-    prompt: `3D rendered fantasy game power-up icon, magical crystal hammer weapon with shiny metallic silver head and golden handle, glowing blue magical energy around the hammer, sparkles and stars, mobile match-3 game special power icon, candy crush saga style booster icon, bejeweled game style, ultra glossy 3D icon, vibrant silver blue gold colors, centered composition on solid pure white background, no shadow, isolated single item, highly detailed, 8k render`
+    prompt: `3D rendered single war hammer weapon icon, shiny polished metallic silver hammer head with smooth surface, brown wooden handle with leather grip, slight blue glow outline, clean simple mobile game icon design, candy crush saga style booster icon, bejeweled game style, ultra glossy, vibrant silver and brown colors, minimal sparkles, centered composition on solid pure white background, no shadow, isolated single hammer, clean simple design, highly detailed, 8k render`
   },
   guc_karistir: {
     dosya: 'guc-karistir.png',
     en: 512,
     boy: 512,
-    prompt: `3D rendered fantasy game power-up icon, two curved circular arrows in swirl pattern forming a shuffle shuffle refresh symbol, shiny metallic gold arrows with glowing magical purple energy, sparkles and stars, mobile match-3 game special power icon, candy crush saga style booster icon, bejeweled game style, ultra glossy 3D icon, vibrant gold purple blue colors, centered composition on solid pure white background, no shadow, isolated single item, highly detailed, 8k render`
+    prompt: `3D rendered single shuffle refresh arrow icon, two curved arrows forming a circular loop, shiny polished metallic gold arrows with smooth surface, slight purple glow outline, clean simple mobile game icon design, candy crush saga style booster icon, bejeweled game style, ultra glossy, vibrant gold color, minimal sparkles, centered composition on solid pure white background, no shadow, isolated single icon, clean simple design, highly detailed, 8k render`
   },
   guc_bomba: {
     dosya: 'guc-bomba.png',
     en: 512,
     boy: 512,
-    prompt: `3D rendered fantasy game power-up icon, round black bomb with burning fuse on top, red sparks and fire around the fuse, shiny metallic bomb body with highlights, glowing orange magical energy, sparkles and flames, mobile match-3 game special power icon, candy crush saga style booster icon, bejeweled game style, ultra glossy 3D icon, vibrant black red orange colors, centered composition on solid pure white background, no shadow, isolated single item, highly detailed, 8k render`
+    prompt: `3D rendered single round cartoon bomb icon, black spherical bomb with short burning fuse on top, small orange flame on fuse tip, shiny metallic black surface with white highlight, clean simple mobile game icon design, candy crush saga style booster icon, bejeweled game style, ultra glossy, vibrant black with orange flame, minimal sparkles, centered composition on solid pure white background, no shadow, isolated single bomb, clean simple design, highly detailed, 8k render`
   }
 };
 
