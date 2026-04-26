@@ -63,34 +63,32 @@ const CIKTI_KLASOR = join(PROJE_KOK, 'public', 'assets');
 if (!existsSync(CIKTI_KLASOR)) mkdirSync(CIKTI_KLASOR, { recursive: true });
 
 // ==========================================================
-// KRISTAL (GEM) PROMPT'LARI
-// ==========================================================
-// Her kristal: kare şekil, 3D render, cam/mücevher görünümü, farklı renk
+// KRISTAL (GEM) PROMPT'LARI — Her biri farklı şekil!
 // ==========================================================
 const TATLILAR = {
-  kek: { // Artık elmas — ama dosya adını "kek" bıraktık ki kod uyumlu kalsın
+  kek: { // 💎 Elmas — klasik elmas kesimi (brilliant cut)
     dosya: 'kek.png',
-    prompt: `3D rendered cube-shaped diamond crystal gem on pure white background, clear bright white diamond with rainbow light refraction inside, perfect cube shape with sharp edges and beveled corners, faceted surfaces catching light, brilliant sparkle and reflections, glowing white highlights, mobile match-3 game asset, candy crush saga style gem, jewel game icon, ultra glossy glass material, vibrant white and silver tones with rainbow prism colors, centered composition, solid pure white background, no shadows, highly detailed, 8k render`
+    prompt: `3D rendered classic brilliant cut diamond gem on pure white background, traditional diamond shape with pointed bottom and flat top crown, multiple triangular facets catching light, clear bright white color with rainbow prism refractions inside, sparkling light reflections, glowing white highlights, mobile match-3 puzzle game asset, candy crush saga style jewel icon, bejeweled game style, ultra glossy glass material, vibrant pure white with silver and rainbow tones, centered composition, solid pure white background, no shadows, highly detailed, 8k render`
   },
-  kurabiye: { // Yakut (kırmızı)
+  kurabiye: { // ❤️ Yakut — kalp şekli
     dosya: 'kurabiye.png',
-    prompt: `3D rendered cube-shaped ruby crystal gem on pure white background, deep rich red ruby, perfect cube shape with sharp edges and beveled corners, faceted surfaces, glowing inner fire light, bright red highlights and sparkle, mobile match-3 game asset, candy crush saga style gem, jewel game icon, ultra glossy glass material, vibrant deep red color with pink highlights, centered composition, solid pure white background, no shadows, highly detailed, 8k render`
+    prompt: `3D rendered heart-shaped ruby gem on pure white background, classic heart shape cut gemstone, deep rich red ruby with faceted surfaces, glowing inner fire light, bright red and pink highlights, sparkle and shine, mobile match-3 puzzle game asset, candy crush saga style jewel icon, bejeweled game style, ultra glossy glass material, vibrant deep red heart crystal, centered composition, solid pure white background, no shadows, highly detailed, 8k render`
   },
-  cilek: { // Zümrüt (yeşil)
+  cilek: { // 🔺 Zümrüt — üçgen/piramit
     dosya: 'cilek.png',
-    prompt: `3D rendered cube-shaped emerald crystal gem on pure white background, bright vivid green emerald, perfect cube shape with sharp edges and beveled corners, faceted translucent surfaces, glowing inner green light, bright highlights and sparkle, mobile match-3 game asset, candy crush saga style gem, jewel game icon, ultra glossy glass material, vibrant emerald green color with lime highlights, centered composition, solid pure white background, no shadows, highly detailed, 8k render`
+    prompt: `3D rendered triangular pyramid shaped emerald gem on pure white background, classic triangle cut gemstone with sharp corners and flat triangular top, bright vivid green emerald with faceted surfaces, glowing inner green light, bright lime and white highlights, sparkle and shine, mobile match-3 puzzle game asset, candy crush saga style jewel icon, bejeweled game style, ultra glossy glass material, vibrant emerald green triangular crystal, centered composition, solid pure white background, no shadows, highly detailed, 8k render`
   },
-  cikolata: { // Safir (mavi)
+  cikolata: { // 🟦 Safir — klasik kare (princess cut)
     dosya: 'cikolata.png',
-    prompt: `3D rendered cube-shaped sapphire crystal gem on pure white background, deep royal blue sapphire, perfect cube shape with sharp edges and beveled corners, faceted surfaces, glowing inner blue light, bright cyan highlights and sparkle, mobile match-3 game asset, candy crush saga style gem, jewel game icon, ultra glossy glass material, vibrant deep blue color with light blue highlights, centered composition, solid pure white background, no shadows, highly detailed, 8k render`
+    prompt: `3D rendered square princess cut sapphire gem on pure white background, perfect square shape with sharp 90 degree corners and beveled faceted edges, deep royal blue sapphire, multiple facets catching light, glowing inner blue glow, bright cyan and white highlights, sparkle and shine, mobile match-3 puzzle game asset, candy crush saga style jewel icon, bejeweled game style, ultra glossy glass material, vibrant deep blue square crystal, centered composition, solid pure white background, no shadows, highly detailed, 8k render`
   },
-  dondurma: { // Ametist (mor)
+  dondurma: { // ⭐ Ametist — yıldız şekli (6 uçlu)
     dosya: 'dondurma.png',
-    prompt: `3D rendered cube-shaped amethyst crystal gem on pure white background, rich purple amethyst, perfect cube shape with sharp edges and beveled corners, faceted translucent surfaces, glowing inner violet light, bright pink-purple highlights and sparkle, mobile match-3 game asset, candy crush saga style gem, jewel game icon, ultra glossy glass material, vibrant purple color with magenta highlights, centered composition, solid pure white background, no shadows, highly detailed, 8k render`
+    prompt: `3D rendered six-pointed star-shaped amethyst gem on pure white background, classic star cut gemstone with six sharp points radiating outward, rich purple amethyst with faceted surfaces, glowing inner violet light, bright magenta and white highlights, sparkle and shine, mobile match-3 puzzle game asset, candy crush saga style jewel icon, bejeweled game style, ultra glossy glass material, vibrant purple star crystal, centered composition, solid pure white background, no shadows, highly detailed, 8k render`
   },
-  lolipop: { // Amber / Topaz (turuncu/sarı)
+  lolipop: { // 💧 Amber — damla/oval şekli
     dosya: 'lolipop.png',
-    prompt: `3D rendered cube-shaped amber topaz crystal gem on pure white background, bright golden orange amber, perfect cube shape with sharp edges and beveled corners, faceted surfaces, glowing inner warm light, bright yellow-gold highlights and sparkle, mobile match-3 game asset, candy crush saga style gem, jewel game icon, ultra glossy glass material, vibrant orange and gold color with yellow highlights, centered composition, solid pure white background, no shadows, highly detailed, 8k render`
+    prompt: `3D rendered teardrop pear-shaped amber topaz gem on pure white background, classic teardrop pear cut gemstone with pointed top and round bottom, bright golden orange amber with faceted surfaces, glowing inner warm light, bright yellow gold and white highlights, sparkle and shine, mobile match-3 puzzle game asset, candy crush saga style jewel icon, bejeweled game style, ultra glossy glass material, vibrant orange gold teardrop crystal, centered composition, solid pure white background, no shadows, highly detailed, 8k render`
   }
 };
 
