@@ -235,84 +235,51 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: clamp(26px, 6vw, 44px);
       cursor: pointer;
-      transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.18s ease, filter 0.15s ease;
+      transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.15s ease;
       position: relative;
       overflow: visible;
-      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
+      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
+      background: transparent;
     }
 
-    /* Her tatlı için 3D arka plan rengi (JS tarafından data-tatli ile eşlenir) */
-    .hucre[data-tatli="🍰"] {
-      background: radial-gradient(circle at 30% 25%, #fff 0%, #ffb3d9 40%, #ff1493 90%);
-      box-shadow: 0 0 14px rgba(255, 20, 147, 0.7), inset 0 -4px 8px rgba(180, 0, 100, 0.5), inset 0 3px 6px rgba(255, 255, 255, 0.8);
-    }
-    .hucre[data-tatli="🍪"] {
-      background: radial-gradient(circle at 30% 25%, #fff3cd 0%, #d4a574 40%, #8b4513 90%);
-      box-shadow: 0 0 14px rgba(139, 69, 19, 0.7), inset 0 -4px 8px rgba(80, 40, 0, 0.5), inset 0 3px 6px rgba(255, 255, 255, 0.7);
-    }
-    .hucre[data-tatli="🍓"] {
-      background: radial-gradient(circle at 30% 25%, #fff 0%, #ff6b6b 40%, #c62828 90%);
-      box-shadow: 0 0 14px rgba(198, 40, 40, 0.7), inset 0 -4px 8px rgba(130, 0, 0, 0.5), inset 0 3px 6px rgba(255, 255, 255, 0.8);
-    }
-    .hucre[data-tatli="🍫"] {
-      background: radial-gradient(circle at 30% 25%, #d7ccc8 0%, #8d6e63 40%, #3e2723 90%);
-      box-shadow: 0 0 14px rgba(62, 39, 35, 0.7), inset 0 -4px 8px rgba(30, 15, 10, 0.6), inset 0 3px 6px rgba(255, 255, 255, 0.6);
-    }
-    .hucre[data-tatli="🍦"] {
-      background: radial-gradient(circle at 30% 25%, #fff 0%, #b3e5fc 40%, #0288d1 90%);
-      box-shadow: 0 0 14px rgba(2, 136, 209, 0.7), inset 0 -4px 8px rgba(0, 80, 140, 0.5), inset 0 3px 6px rgba(255, 255, 255, 0.9);
-    }
-    .hucre[data-tatli="🍭"] {
-      background: radial-gradient(circle at 30% 25%, #fff 0%, #ce93d8 40%, #6a1b9a 90%);
-      box-shadow: 0 0 14px rgba(106, 27, 154, 0.7), inset 0 -4px 8px rgba(50, 0, 80, 0.5), inset 0 3px 6px rgba(255, 255, 255, 0.8);
-    }
+    /* Hücrenin altına, her tatlıya özgü renkli ışık halkası */
+    .hucre[data-tatli="🍰"] { filter: drop-shadow(0 0 10px rgba(255, 105, 180, 0.7)) drop-shadow(0 4px 6px rgba(0,0,0,0.4)); }
+    .hucre[data-tatli="🍪"] { filter: drop-shadow(0 0 10px rgba(200, 130, 50, 0.7)) drop-shadow(0 4px 6px rgba(0,0,0,0.4)); }
+    .hucre[data-tatli="🍓"] { filter: drop-shadow(0 0 10px rgba(255, 60, 60, 0.7)) drop-shadow(0 4px 6px rgba(0,0,0,0.4)); }
+    .hucre[data-tatli="🍫"] { filter: drop-shadow(0 0 10px rgba(120, 70, 40, 0.7)) drop-shadow(0 4px 6px rgba(0,0,0,0.4)); }
+    .hucre[data-tatli="🍦"] { filter: drop-shadow(0 0 10px rgba(100, 180, 255, 0.7)) drop-shadow(0 4px 6px rgba(0,0,0,0.4)); }
+    .hucre[data-tatli="🍭"] { filter: drop-shadow(0 0 10px rgba(200, 100, 255, 0.7)) drop-shadow(0 4px 6px rgba(0,0,0,0.4)); }
 
-    /* Cilalı ışık efekti — her hücrenin üstünde */
-    .hucre::before {
-      content: '';
-      position: absolute;
-      top: 8%;
-      left: 15%;
-      width: 40%;
-      height: 30%;
-      background: radial-gradient(ellipse, rgba(255, 255, 255, 0.85) 0%, transparent 70%);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .hucre > span {
-      position: relative;
-      z-index: 2;
-      filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
-      transition: transform 0.2s ease;
+    /* SVG içeriği hücreye tam oturur */
+    .hucre svg {
+      width: 92%;
+      height: 92%;
+      display: block;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .hucre:hover {
-      transform: scale(1.15) translateY(-3px);
-      filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.5)) brightness(1.15);
+      transform: scale(1.18) translateY(-4px);
       z-index: 3;
     }
 
-    .hucre:hover > span {
-      transform: rotate(-5deg) scale(1.05);
+    .hucre:hover svg {
+      transform: rotate(-6deg) scale(1.08);
     }
 
     .hucre:active { transform: scale(0.92); }
 
     /* Seçili hücre — pulsing altın halka */
     .hucre.secili {
-      transform: scale(1.2);
-      filter: drop-shadow(0 0 18px #ffd700) brightness(1.25);
+      transform: scale(1.22);
       z-index: 4;
       animation: secili-nabiz 0.7s ease-in-out infinite;
     }
 
     @keyframes secili-nabiz {
-      0%, 100% { box-shadow: 0 0 0 4px #ffd700, 0 0 30px rgba(255, 215, 0, 0.9); }
-      50%      { box-shadow: 0 0 0 6px #ffeb3b, 0 0 45px rgba(255, 235, 59, 1); }
+      0%, 100% { filter: drop-shadow(0 0 18px #ffd700) drop-shadow(0 0 8px #ffd700) brightness(1.15); }
+      50%      { filter: drop-shadow(0 0 30px #fff176) drop-shadow(0 0 12px #ffeb3b) brightness(1.35); }
     }
 
     /* Patlama — ışık patlaması + parçalara ayrılma */
@@ -500,6 +467,9 @@
 
   <div class="combo-popup" id="comboPopup"></div>
 
+  <!-- Tatlı şekilleri (SVG koleksiyonu) -->
+  <script src="sekiller.js"></script>
+
   <script>
     // ==========================================================
     // PASTA ŞEFİ'NİN YÜKSELİŞİ — v0.1.1 Zengin Arayüz
@@ -581,9 +551,8 @@
           h.dataset.st = st;
           h.dataset.tatli = tahta[s][st];
 
-          const icerik = document.createElement('span');
-          icerik.textContent = tahta[s][st];
-          h.appendChild(icerik);
+          // Emoji yerine SVG çizimi
+          h.innerHTML = window.SEKILLER[tahta[s][st]] || '';
 
           if (secili && secili.s === s && secili.st === st) {
             h.classList.add('secili');
@@ -745,20 +714,39 @@
       }
     }
 
-    // Patlayan hücreden 6 yönde parçacık uç
+    // Patlayan hücreden 8 yönde parçacık uç (renkli ışıltılar + yıldızlar)
     function patlamaParcaciklari(el, emoji) {
       const rect = el.getBoundingClientRect();
-      for (let i = 0; i < 6; i++) {
+      // Tatlıya göre parçacık rengi
+      const renkler = {
+        '🍰': ['#ff69b4', '#ff1493', '#ffb6c1'],
+        '🍪': ['#d4a574', '#8b4513', '#ffc107'],
+        '🍓': ['#ff1744', '#c62828', '#ff8a80'],
+        '🍫': ['#5d4037', '#3e2723', '#8d6e63'],
+        '🍦': ['#81d4fa', '#0288d1', '#fff'],
+        '🍭': ['#ba68c8', '#6a1b9a', '#e1bee7']
+      };
+      const paletRenkleri = renkler[emoji] || ['#fff'];
+      const semboller = ['✨', '⭐', '💫', '🌟'];
+      for (let i = 0; i < 10; i++) {
         const p = document.createElement('div');
         p.className = 'patlama-parcacik';
-        p.textContent = emoji;
+        // Yarı yıldız yarı renkli nokta
+        if (i % 2 === 0) {
+          p.textContent = semboller[Math.floor(Math.random() * semboller.length)];
+        } else {
+          // Renkli daire
+          p.textContent = '●';
+          p.style.color = paletRenkleri[Math.floor(Math.random() * paletRenkleri.length)];
+          p.style.textShadow = `0 0 8px ${paletRenkleri[0]}`;
+        }
         p.style.left = (rect.left + rect.width / 2) + 'px';
         p.style.top = (rect.top + rect.height / 2) + 'px';
-        const aci = (Math.PI * 2 * i) / 6 + Math.random() * 0.5;
-        const mesafe = 60 + Math.random() * 40;
+        const aci = (Math.PI * 2 * i) / 10 + Math.random() * 0.3;
+        const mesafe = 70 + Math.random() * 50;
         p.style.setProperty('--dx', Math.cos(aci) * mesafe + 'px');
         p.style.setProperty('--dy', Math.sin(aci) * mesafe + 'px');
-        p.style.fontSize = (16 + Math.random() * 10) + 'px';
+        p.style.fontSize = (14 + Math.random() * 14) + 'px';
         document.body.appendChild(p);
         setTimeout(() => p.remove(), 850);
       }
