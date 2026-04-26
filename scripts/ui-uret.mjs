@@ -56,9 +56,9 @@ const UI_ELEMANLARI = {
   },
   altin_kutu: {
     dosya: 'altin-kutu.png',
-    en: 512,
-    boy: 512,
-    prompt: `3D rendered fantasy game UI frame panel, ornate gold metal border frame with gem decorations on corners, horizontal pill shape with rounded edges, shiny polished gold metallic surface with engravings, glowing center area empty ready for number text, royal medieval fantasy style, mobile match-3 game UI asset, candy crush saga style frame, bejeweled game style, ultra glossy, vibrant golden yellow with jewel accents, centered composition on solid pure white background, no shadow, empty inside, highly detailed, 8k render`
+    en: 768,
+    boy: 384,
+    prompt: `3D rendered fantasy game UI frame panel, horizontal rounded rectangle shape, ornate gold metal border frame, four ruby gem decorations on corners, shiny polished gold metallic surface with subtle engravings, completely empty clean center area for displaying text, NO TEXT NO SYMBOLS NO NUMBERS inside, completely blank smooth interior, royal medieval fantasy style, mobile match-3 game UI asset, candy crush saga style frame, bejeweled game style, ultra glossy, vibrant golden yellow with jewel accents, centered composition on solid pure white background, no shadow, highly detailed, 8k render`
   },
   hedef_kutu: {
     dosya: 'hedef-kutu.png',
