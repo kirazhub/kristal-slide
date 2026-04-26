@@ -1,0 +1,35 @@
+# ==========================================================
+# Pasta Şefi - Git Yoksay Listesi
+# ==========================================================
+
+# Hassas bilgiler (API anahtarları, şifreler) — ASLA git'e girmemeli
+.env
+.env.local
+.env.*.local
+*.key
+secrets/
+
+# Node.js bağımlılıkları (yüzbinlerce dosya, yeniden indirilebilir)
+node_modules/
+npm-debug.log*
+
+# Derleme çıktıları
+dist/
+build/
+*.log
+
+# IDE/Editör dosyaları
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# macOS sistem dosyaları
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Geçici dosyalar
+tmp/
+temp/
+*.tmp
