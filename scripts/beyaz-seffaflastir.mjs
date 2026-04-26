@@ -151,17 +151,53 @@ function satirlariFiltrele(piksel, width, height, bpp) {
 }
 
 // ==========================================================
-// BEYAZI ŞEFFAFLAŞTIR
+// ARKA PLAN RENGİNİ KÖŞELERDEN TESPİT ET
 // ==========================================================
-function beyaziSeffaflastir(piksel, width, height, rgb2rgba) {
-  // rgb2rgba === true ise giriş RGB (3 byte), çıkış RGBA (4 byte) olacak
+// Görüntünün 4 köşesinden örnekleme alıp ortalama rengi buluyor.
+// Beyaz ise beyazı, magenta ise magentayı şeffaflaştırıyor.
+function arkaPlanRengiTespit(piksel, width, height, bpp) {
+  const kose = 20; // her köşeden 20x20 piksel örnekle
+  let r = 0, g = 0, b = 0, sayac = 0;
+
+  function ornekle(x0, y0) {
+    for (let y = y0; y < y0 + kose && y < height; y++) {
+      for (let x = x0; x < x0 + kose && x < width; x++) {
+        const idx = (y * width + x) * bpp;
+        r += piksel[idx];
+        g += piksel[idx + 1];
+        b += piksel[idx + 2];
+        sayac++;
+      }
+    }
+  }
+
+  ornekle(0, 0);
+  ornekle(width - kose, 0);
+  ornekle(0, height - kose);
+  ornekle(width - kose, height - kose);
+
+  return {
+    r: Math.round(r / sayac),
+    g: Math.round(g / sayac),
+    b: Math.round(b / sayac)
+  };
+}
+
+// ==========================================================
+// ARKA PLAN RENGİNİ ŞEFFAFLAŞTIR
+// ==========================================================
+// Köşelerden tespit edilen arka plan rengine yakın pikselleri şeffaf yapar.
+function arkaPlaniSeffaflastir(piksel, width, height, rgb2rgba) {
   const gBpp = rgb2rgba ? 3 : 4;
   const cBpp = 4;
   const sonuc = Buffer.alloc(width * height * cBpp);
 
-  // Beyaz eşiği (240+ olan piksellerin alphası azalır)
-  const ESIK_TAM_SEFFAF = 248;    // 248+ tamamen şeffaf
-  const ESIK_KISMEN = 225;        // 225-248 arası oransal alpha
+  const arkaPlan = arkaPlanRengiTespit(piksel, width, height, gBpp);
+  console.log(`      tespit edilen arka plan rengi: rgb(${arkaPlan.r}, ${arkaPlan.g}, ${arkaPlan.b})`);
+
+  // Renk mesafesi eşikleri (daha küçük = daha sıkı, daha büyük = daha gevşek)
+  const ESIK_TAM_SEFFAF = 20;    // arka plana çok yakınsa tam şeffaf
+  const ESIK_KISMEN = 60;        // uzaklaştıkça opaklık artıyor
 
   for (let i = 0, j = 0; i < piksel.length; i += gBpp, j += cBpp) {
     const r = piksel[i];
@@ -173,23 +209,29 @@ function beyaziSeffaflastir(piksel, width, height, rgb2rgba) {
     sonuc[j + 1] = g;
     sonuc[j + 2] = b;
 
-    const minRGB = Math.min(r, g, b);
-    let yeniAlpha;
+    // Öklid mesafesi ile arka plana ne kadar yakın
+    const dr = r - arkaPlan.r;
+    const dg = g - arkaPlan.g;
+    const db = b - arkaPlan.b;
+    const mesafe = Math.sqrt(dr * dr + dg * dg + db * db);
 
-    if (minRGB >= ESIK_TAM_SEFFAF) {
-      yeniAlpha = 0; // tamamen şeffaf
-    } else if (minRGB >= ESIK_KISMEN) {
-      // Kenar yumuşatma: oransal alpha
-      const oran = (ESIK_TAM_SEFFAF - minRGB) / (ESIK_TAM_SEFFAF - ESIK_KISMEN);
+    let yeniAlpha;
+    if (mesafe <= ESIK_TAM_SEFFAF) {
+      yeniAlpha = 0;
+    } else if (mesafe <= ESIK_KISMEN) {
+      const oran = (mesafe - ESIK_TAM_SEFFAF) / (ESIK_KISMEN - ESIK_TAM_SEFFAF);
       yeniAlpha = Math.round(255 * oran);
     } else {
-      yeniAlpha = 255; // tamamen opak
+      yeniAlpha = 255;
     }
 
     sonuc[j + 3] = Math.min(mevcutAlpha, yeniAlpha);
   }
   return sonuc;
 }
+
+// Geriye dönük uyumluluk
+const beyaziSeffaflastir = arkaPlaniSeffaflastir;
 
 // ==========================================================
 // ANA İŞLEM
@@ -210,6 +252,12 @@ function dosyayiIsle(dosyaYol) {
   }
   if (info.interlace !== 0) {
     throw new Error('Interlace desteklenmiyor');
+  }
+
+  // Zaten şeffaflaştırılmış (RGBA) ise atla
+  if (info.colorType === 6) {
+    console.log(`      ⏭  atlanıyor (zaten RGBA/şeffaf)`);
+    return;
   }
 
   const bpp = info.colorType === 6 ? 4 : 3;
@@ -259,14 +307,24 @@ function dosyayiIsle(dosyaYol) {
 // ==========================================================
 // ÇALIŞTIR
 // ==========================================================
-console.log('\n🎨 Beyaz arka planları şeffaflaştırılıyor...\n');
+// Komut satırından argüman alabilir — tek dosya için:
+//   node scripts/beyaz-seffaflastir.mjs kek.png
+// Tüm dosyalar için argüman verilmezse hepsini yapar:
+//   node scripts/beyaz-seffaflastir.mjs
+// ==========================================================
+console.log('\n🎨 Arka planları şeffaflaştırılıyor (otomatik renk tespiti)...\n');
 
-const dosyalar = readdirSync(ASSETS).filter(f => f.endsWith('.png'));
+const istenen = process.argv[2]; // opsiyonel: tek dosya
+const dosyalar = istenen
+  ? [istenen.endsWith('.png') ? istenen : istenen + '.png']
+  : readdirSync(ASSETS).filter(f => f.endsWith('.png'));
+
 let basarili = 0;
 let hatali = 0;
 
 for (const dosya of dosyalar) {
   try {
+    console.log(`   🔍 işleniyor: ${dosya}`);
     dosyayiIsle(join(ASSETS, dosya));
     basarili++;
   } catch (e) {

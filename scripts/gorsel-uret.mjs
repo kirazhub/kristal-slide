@@ -66,9 +66,9 @@ if (!existsSync(CIKTI_KLASOR)) mkdirSync(CIKTI_KLASOR, { recursive: true });
 // KRISTAL (GEM) PROMPT'LARI — Her biri farklı şekil!
 // ==========================================================
 const TATLILAR = {
-  kek: { // 💎 Elmas — klasik elmas kesimi (brilliant cut)
+  kek: { // 💎 Elmas — hexagon/elips şekli, özgün (beyaz değil)
     dosya: 'kek.png',
-    prompt: `3D rendered classic brilliant cut diamond gem on pure white background, traditional diamond shape with pointed bottom and flat top crown, multiple triangular facets catching light, clear bright white color with rainbow prism refractions inside, sparkling light reflections, glowing white highlights, mobile match-3 puzzle game asset, candy crush saga style jewel icon, bejeweled game style, ultra glossy glass material, vibrant pure white with silver and rainbow tones, centered composition, solid pure white background, no shadows, highly detailed, 8k render`
+    prompt: `3D rendered round brilliant diamond gem floating, perfectly round circular shape viewed from above like a polished coin or disc, multiple hexagonal and triangular facets arranged in a star pattern catching light, bright cyan and silver color with rainbow prism light inside, sparkling brilliant reflections, glowing blue-white highlights, mobile match-3 puzzle game asset, candy crush saga style jewel icon, bejeweled game style, ultra glossy crystal material, vibrant icy blue silver with rainbow flashes, centered composition, solid bright magenta pink background color, no shadows, highly detailed, 8k render`
   },
   kurabiye: { // ❤️ Yakut — kalp şekli
     dosya: 'kurabiye.png',
