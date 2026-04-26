@@ -1,0 +1,29 @@
+{
+  "name": "pastasefi",
+  "version": "1.0.0",
+  "description": "Tarayıcıda oynanan, Candy Crush tarzı **3D görünümlü kristal eşleştirme oyunu**. AI üretimi (Leonardo.ai) görseller kullanır.",
+  "main": "sekiller.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kirazhub/kristal-slide.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kirazhub/kristal-slide/issues"
+  },
+  "homepage": "https://github.com/kirazhub/kristal-slide#readme",
+  "devDependencies": {
+    "@capacitor/android": "^8.3.1",
+    "@capacitor/cli": "^8.3.1",
+    "@capacitor/core": "^8.3.1",
+    "@capacitor/ios": "^8.3.1"
+  }
+}

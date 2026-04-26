@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Kristal Krallığı</string>
+    <string name="title_activity_main">Kristal Krallığı</string>
+    <string name="package_name">com.kirazhub.kristalkralligi</string>
+    <string name="custom_url_scheme">com.kirazhub.kristalkralligi</string>
+</resources>

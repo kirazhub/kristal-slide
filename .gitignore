@@ -36,3 +36,19 @@ temp/
 
 # AI üretim yedekleri (gerektiğinde yeniden üretilebilir)
 public/assets-yedek-*/
+
+# Capacitor native build çıktıları (npx cap sync ile yeniden üretilebilir)
+android/app/build/
+android/build/
+android/.gradle/
+android/local.properties
+ios/App/Pods/
+ios/App/build/
+ios/DerivedData/
+
+# Capacitor web kopyası (kaynak dosyalar zaten repo'da var)
+www/
+
+# Node
+package-lock.json
+

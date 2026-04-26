@@ -1,26 +1,39 @@
-# 💎 Kristal Krallığı (Crystal Kingdom)
+# 💎 Kristal Krallığı
 
-Tarayıcıda oynanan, Candy Crush tarzı **3D görünümlü kristal eşleştirme oyunu**. AI üretimi (Leonardo.ai) görseller kullanır.
+Candy Crush tarzı **3D kristal eşleştirme** mobil oyunu. iPhone + Android uyumlu PWA, 100 bölüm macera.
 
-![Oyun durumu: aktif geliştirme](https://img.shields.io/badge/durum-aktif-brightgreen) ![Lisans: MIT](https://img.shields.io/badge/lisans-MIT-blue)
+**🎮 Hemen Oyna:** **https://kirazhub.github.io/kristal-slide/**
 
----
-
-## 🎮 Nasıl Oynanır
-
-1. `index.html` dosyasını **çift tıkla** → tarayıcıda açılır
-2. Komşu iki kristale sırayla tıkla → yer değişirler
-3. 3 veya daha fazla aynı kristal yan yana/alt alta gelirse patlarlar
-4. Patlatılan her kristal 10 altın getirir, zincirleme combolar çarpanla çarpılır
-5. 30 **elmas** topla → bölüm tamamlanır
+![Aktif](https://img.shields.io/badge/durum-aktif-brightgreen) ![Mobil](https://img.shields.io/badge/platform-iOS%20%7C%20Android%20%7C%20Web-blue) ![PWA](https://img.shields.io/badge/PWA-yes-purple)
 
 ---
 
-## 💎 Kristaller
+## 📱 Nasıl Oynanır
+
+### Mobil (iPhone / Android):
+1. Telefondan yukarıdaki linke gir
+2. **Safari** (iPhone) veya **Chrome** (Android):
+   - iPhone: Paylaş → "Ana Ekrana Ekle"
+   - Android: "Uygulamayı Yükle" bildirimine bas
+3. Ana ekranda ikon belirir → **uygulama gibi** açılır
+4. Internet yoksa bile çalışır (offline)
+
+### Oyun Mantığı:
+- **Parmakla kaydırarak** kristalleri değiştir
+- 3+ aynı kristal yan yana/alt alta → patlar
+- Her bölümün **farklı hedefi** var (TOPLA / PUAN / COMBO)
+- 1-2-3 yıldız kazanabilirsin
+- Biriken altınlarla güçler açılır
+
+---
+
+## 💎 6 Farklı Kristal
+
+Hepsi Leonardo.ai ile üretilmiş **3D görünümlü, kendi renginde halesi olan** görseller:
 
 | Şekil | Kristal | Renk |
 |:---:|:---|:---|
-| Yuvarlak | Elmas | Beyaz-gümüş + pembe hale |
+| Yuvarlak | Elmas | Beyaz + pembe hale |
 | Kalp | Yakut | Kırmızı + kırmızı hale |
 | Üçgen | Zümrüt | Yeşil + yeşil hale |
 | Kare | Safir | Mavi + mavi hale |
@@ -29,12 +42,47 @@ Tarayıcıda oynanan, Candy Crush tarzı **3D görünümlü kristal eşleştirme
 
 ---
 
+## ✨ Özellikler
+
+### 🎮 Oynanış
+- **100 bölüm** — hardcore zorluk eğrisi
+- **3 hedef tipi**: Belirli kristalden X tane topla / N puan yap / Süper combo yap
+- **Yıldız sistemi** (1-2-3 yıldız)
+- **Zincirleme combolar** (x2 GÜZEL, x3 SÜPER, x4 HARİKA, x5 EFSANE)
+- **Özel güçler**: Çekiç, Karıştır, Bomba
+
+### 📱 Mobil Kontrol
+- **Parmak kaydırma (swipe)** — doğal mobil kontrolü
+- **Tıklama** da çalışır (masaüstü için)
+- **Titreşim** (patlama + combo + zafer)
+
+### 🎵 Ses
+- Web Audio API ile synthesize edilmiş sesler (harici dosya yok)
+- Patlama, combo, zafer, kayıp sesleri
+- Hafif arka plan müziği
+- Ayarlardan açma/kapama
+
+### 💾 Kayıt
+- LocalStorage ile otomatik kayıt
+- Açtığın bölümler, yıldızlar, altınlar, ayarlar
+- Sıfırlama seçeneği
+
+### 🌐 PWA (Progressive Web App)
+- **Ana ekrana ekle** → uygulama gibi çalışır
+- **Offline mod** → internet yoksa bile oyna
+- **Tam ekran** → tarayıcı çubuğu görünmez
+- **iOS + Android** uyumlu
+
+---
+
 ## 🛠️ Teknolojiler
 
-- **Vanilla HTML + CSS + JavaScript** — hiçbir framework yok, tarayıcıda direkt açılır
-- **Leonardo.ai FLUX Dev** — tüm kristaller, UI çerçeveleri, logo AI ile üretildi
-- **Saf JS PNG parser** — arka plan şeffaflaştırma (zlib ile, harici paket yok)
-- **Google Fonts** — Fredoka (gövde) + Luckiest Guy (fantastik başlıklar)
+- **Vanilla JS** — hiçbir framework yok, ultra hafif
+- **CSS3** — animasyonlar, gradyanlar, blur efektleri
+- **Web Audio API** — synthesize edilmiş sesler
+- **Service Worker** — offline destek
+- **Leonardo.ai FLUX Dev** — tüm görseller AI ile üretildi
+- **Capacitor** — Android/iOS native app derleme hazırlığı
 
 ---
 
@@ -42,106 +90,66 @@ Tarayıcıda oynanan, Candy Crush tarzı **3D görünümlü kristal eşleştirme
 
 ```
 KristalKralligi/
-├── index.html              # Oyun — tek dosya, direkt açılır
-├── sekiller.js             # Kristal görselleri haritalaması
+├── index.html              # Ana giriş noktası
+├── css/
+│   ├── ana.css             # Ortak stiller
+│   ├── ekranlar.css        # Giriş + harita
+│   └── oyun.css            # Oyun ekranı
+├── js/
+│   ├── kayit.js            # LocalStorage
+│   ├── ses.js              # Web Audio
+│   ├── oyun.js             # Oyun motoru
+│   └── arayuz.js           # Ekran yönetimi
+├── data/
+│   └── bolumler.js         # 100 bölüm verisi
 ├── public/
-│   ├── assets/             # 6 kristal PNG (Leonardo ile üretilmiş)
+│   ├── assets/             # 6 kristal PNG
 │   └── ui/                 # Logo, kutular, güç ikonları
 ├── scripts/
-│   ├── gorsel-uret.mjs     # Leonardo API ile kristal üretir
-│   ├── ui-uret.mjs         # Leonardo API ile UI elemanları üretir
-│   └── beyaz-seffaflastir.mjs  # Arka planı otomatik şeffaf yapar
-├── docs/
-│   └── specs/              # Tasarım belgeleri
-└── .env.example            # API anahtarı şablonu
+│   ├── gorsel-uret.mjs     # Leonardo API kristal üretici
+│   ├── ui-uret.mjs         # Leonardo API UI üretici
+│   └── beyaz-seffaflastir.mjs  # Arka plan şeffaflaştırıcı
+├── sw.js                   # Service Worker (offline)
+├── manifest.json           # PWA manifest
+├── capacitor.config.json   # Mobil app config
+├── android/                # Native Android projesi (git'te yok)
+├── ios/                    # Native iOS projesi (git'te yok)
+└── MOBIL-REHBER.md         # Mobil uygulama derleme rehberi
 ```
 
 ---
 
-## 🤖 AI Görsel Üretimi
+## 🚀 Kurulum
 
-Oyundaki tüm görseller Leonardo.ai REST API ile üretildi:
+### Sadece Oynamak İstiyorsan:
+Hiçbir şey kurmana gerek yok. Linke gir: **https://kirazhub.github.io/kristal-slide/**
 
+### Yerel Geliştirme:
 ```bash
-# Tüm 6 kristali yeniden üret
-node scripts/gorsel-uret.mjs
-
-# Sadece bir kristali yenile (örn: yakut)
-node scripts/gorsel-uret.mjs kurabiye
-
-# UI elemanlarını üret
-node scripts/ui-uret.mjs
-
-# Üretilen görsellerin beyaz arka planını otomatik şeffaflaştır
-node scripts/beyaz-seffaflastir.mjs         # assets klasörü
-node scripts/beyaz-seffaflastir.mjs ui      # ui klasörü
+git clone https://github.com/kirazhub/kristal-slide.git
+cd kristal-slide
+python3 -m http.server 8000
+open http://localhost:8000
 ```
 
-### Kurulum
-
+### AI Görsel Üretimi:
 ```bash
-# 1. Projeyi klonla
-git clone https://github.com/kirazhub/kristal-krallligi.git
-cd kristal-krallligi
-
-# 2. Leonardo.ai API anahtarı al (https://app.leonardo.ai/api-access)
 cp .env.example .env
-# .env dosyasını açıp LEONARDO_API_KEY'i doldur
+# .env dosyasını Leonardo API anahtarınla doldur
 
-# 3. Oyunu aç
-open index.html
+node scripts/gorsel-uret.mjs          # Tüm kristalleri yeniden üret
+node scripts/ui-uret.mjs              # UI elemanlarını yeniden üret
+node scripts/beyaz-seffaflastir.mjs   # Beyaz arka planları şeffaflaştır
 ```
 
-Görsel üretmek istemezsen adım 2'yi atla — hazır görseller `public/` klasöründe.
-
----
-
-## ✨ Özellikler
-
-### Oyun Mekaniği
-- [x] 8x8 match-3 tahta (komşu takası)
-- [x] Otomatik eşleşme algılama (yatay + dikey, 3+ kristal)
-- [x] Zincirleme patlama + combo çarpanı (x2, x3, x4, x5)
-- [x] Yerçekimi (patlayanlar aşağı kayar, yenileri yukarıdan doğar)
-- [x] Geçersiz hamle geri alma
-
-### Görsel
-- [x] AI üretimi 3D kristaller (Leonardo.ai)
-- [x] Her kristal için özgün şekil + renk halesi
-- [x] Canlı mor-lacivert gradyan arka plan (dalgalanan)
-- [x] Yağan parçacıklar (kalpler, yıldızlar)
-- [x] Altın çerçeveli oyun tahtası
-- [x] Patlama efektleri (renkli parçacık saçılımı)
-- [x] Combo popup animasyonları ("GÜZEL!", "SÜPER!", "EFSANE!")
-- [x] x3+ combo'da ekran sarsıntısı
-- [x] Fantastik AI UI (logo, hedef panosu, güç ikonları)
-
-### Yakında Eklenecek
-- [ ] Güç butonlarının aktif çalışması (çekiç, karıştır, bomba)
-- [ ] Çoklu bölüm sistemi (harita görünümü)
-- [ ] LocalStorage ile ilerleme kaydı
-- [ ] Ses efektleri ve müzik
-- [ ] Pastane/dükkan ekranı (altınla alışveriş)
-- [ ] Seviye/XP sistemi
-- [ ] Mobile app (Capacitor ile Android/iOS)
-
----
-
-## 🎨 Özelleştirme
-
-Kristallerin görünümünü değiştirmek istersen:
-
-1. `scripts/gorsel-uret.mjs` dosyasını aç
-2. İstediğin kristalin `prompt` değerini değiştir (İngilizce metin)
-3. `node scripts/gorsel-uret.mjs <isim>` komutunu çalıştır
-4. `node scripts/beyaz-seffaflastir.mjs` ile şeffaflaştır
-5. Tarayıcıda Cmd+R ile yenile
+### Native App (Android/iOS):
+`MOBIL-REHBER.md` dosyasına bak.
 
 ---
 
 ## 📝 Lisans
 
-MIT. Kullan, değiştir, paylaş. Kristaller AI üretimi olduğu için Leonardo.ai kullanım şartlarına tabidir.
+MIT. Kullan, değiştir, paylaş.
 
 ---
 
