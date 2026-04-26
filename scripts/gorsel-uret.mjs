@@ -70,9 +70,9 @@ const TATLILAR = {
     dosya: 'kek.png',
     prompt: `3D rendered round brilliant diamond gem with thin glowing pink aura halo only around the edges of the gem, perfectly round circular disc shape viewed from above, multiple hexagonal triangular facets arranged in a star pattern catching light, bright cyan and silver crystal with rainbow prism light inside, sparkling brilliant reflections, glowing blue-white highlights with subtle pink glow rim, mobile match-3 puzzle game asset, candy crush saga style jewel icon, bejeweled game style, ultra glossy crystal material, vibrant icy blue silver gem with thin pink energy outline, centered composition, solid pure white background, minimal shadow, highly detailed, 8k render`
   },
-  kurabiye: { // ❤️ Yakut — kalp şekli
+  kurabiye: { // ❤️ Yakut — kalp şekli + ince kırmızı hale
     dosya: 'kurabiye.png',
-    prompt: `3D rendered heart-shaped ruby gem on pure white background, classic heart shape cut gemstone, deep rich red ruby with faceted surfaces, glowing inner fire light, bright red and pink highlights, sparkle and shine, mobile match-3 puzzle game asset, candy crush saga style jewel icon, bejeweled game style, ultra glossy glass material, vibrant deep red heart crystal, centered composition, solid pure white background, no shadows, highly detailed, 8k render`
+    prompt: `3D rendered heart-shaped ruby gem with thin glowing red aura halo only around the edges of the gem, classic heart shape cut gemstone, deep rich red ruby with faceted surfaces, glowing inner fire light, bright red and pink highlights with subtle crimson glow rim, sparkle and shine, mobile match-3 puzzle game asset, candy crush saga style jewel icon, bejeweled game style, ultra glossy glass material, vibrant deep red heart crystal with thin red energy outline, centered composition, solid pure white background, minimal shadow, highly detailed, 8k render`
   },
   cilek: { // 🔺 Zümrüt — üçgen/piramit
     dosya: 'cilek.png',
