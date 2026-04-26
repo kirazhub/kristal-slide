@@ -17,7 +17,13 @@ import { fileURLToPath } from 'node:url';
 import { execSync } from 'node:child_process';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const ASSETS = join(__dirname, '..', 'public', 'assets');
+const PROJE_KOK = join(__dirname, '..');
+// İlk argüman bir klasör adı ise onu kullan, değilse varsayılan 'assets'
+const argKlasor = process.argv[2];
+const klasorAd = (argKlasor && ['assets', 'ui'].includes(argKlasor)) ? argKlasor : 'assets';
+const ASSETS = join(PROJE_KOK, 'public', klasorAd);
+// Argümanı silelim ki dosya ismi olarak algılanmasın
+if (klasorAd === argKlasor) process.argv.splice(2, 1);
 
 // Saf JS PNG decoder/encoder yerine Canvas kullanacağız — ama Node'da Canvas yok.
 // Çözüm: ImageMagick'in yerleşik olmadığı ama sips'in geliştirilmiş kardeşi olan
