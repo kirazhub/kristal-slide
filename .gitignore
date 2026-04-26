@@ -33,3 +33,6 @@ build/
 tmp/
 temp/
 *.tmp
+
+# AI üretim yedekleri (gerektiğinde yeniden üretilebilir)
+public/assets-yedek-*/
