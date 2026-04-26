@@ -1,0 +1,32 @@
+{
+  "name": "Kristal Krallığı",
+  "short_name": "Kristal",
+  "description": "Candy Crush tarzı 3D kristal eşleştirme oyunu — 100 bölüm macera",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1a0f3d",
+  "theme_color": "#1a0f3d",
+  "lang": "tr",
+  "dir": "ltr",
+  "categories": ["games", "entertainment"],
+  "icons": [
+    {
+      "src": "public/ui/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "public/ui/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "public/ui/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}

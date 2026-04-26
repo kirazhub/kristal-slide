@@ -2,873 +2,320 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Kristal Krallığı" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#1a0f3d" />
+  <meta name="description" content="Candy Crush tarzı 3D kristal eşleştirme oyunu — Kristal Krallığı" />
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- iOS ana ekran ikonları -->
+  <link rel="apple-touch-icon" href="public/ui/logo.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="public/ui/logo.png" />
+
   <title>💎 Kristal Krallığı</title>
 
+  <!-- Fontlar -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Luckiest+Guy&display=swap" rel="stylesheet" />
 
+  <!-- Stil dosyaları -->
+  <link rel="stylesheet" href="css/ana.css" />
+  <link rel="stylesheet" href="css/ekranlar.css" />
+  <link rel="stylesheet" href="css/oyun.css" />
+
   <style>
-    /* ============================================
-       TEMEL AYARLAR
-       ============================================ */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html, body {
-      min-height: 100vh;
-      font-family: 'Fredoka', sans-serif;
-      color: #fff;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
+    /* Yıldız patlaması animasyonu (modal için) */
+    @keyframes yildiz-patla {
+      0%   { transform: scale(0) rotate(-180deg); opacity: 0; }
+      60%  { transform: scale(1.3) rotate(20deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
     }
 
-    html {
-      overflow-x: hidden;
-      overflow-y: auto;
+    /* Giriş altında küçük istatistik */
+    .giris-istatistik {
+      display: flex;
+      justify-content: space-around;
+      gap: 15px;
+      width: 100%;
+      font-family: var(--font-baslik);
+      font-size: 14px;
+      letter-spacing: 2px;
+      color: #d4a5ff;
+      text-shadow: 0 0 8px rgba(200, 100, 255, 0.7);
     }
 
-    /* Kristal krallığı arka planı — derin mor-mavi, büyülü ışıklar */
-    body {
-      background:
-        radial-gradient(circle at 20% 20%, rgba(100, 180, 255, 0.35) 0%, transparent 45%),
-        radial-gradient(circle at 80% 30%, rgba(180, 100, 255, 0.4) 0%, transparent 50%),
-        radial-gradient(circle at 50% 90%, rgba(0, 200, 255, 0.3) 0%, transparent 50%),
-        linear-gradient(135deg, #1a1a4e 0%, #2d1b69 30%, #0f0f3d 60%, #1a0f3d 100%);
-      background-size: 200% 200%;
-      background-attachment: fixed;
-      animation: arkaplan-ak 22s ease infinite;
+    .giris-istatistik .kutu {
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 8px 8px 20px 8px;
-      min-height: 100vh;
-      position: relative;
-      overflow-x: hidden;
-    }
-
-    @keyframes arkaplan-ak {
-      0%   { background-position: 0% 50%; }
-      50%  { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    /* Yağan parçacıklar katmanı (kalpler, yıldızlar) */
-    .parcacik {
-      position: fixed;
-      top: -40px;
-      font-size: 24px;
-      opacity: 0.7;
-      pointer-events: none;
-      z-index: 0;
-      animation: yagmur linear infinite;
-      text-shadow: 0 0 10px currentColor;
-    }
-
-    @keyframes yagmur {
-      0%   { transform: translateY(-40px) rotate(0deg);   opacity: 0; }
-      10%  { opacity: 0.8; }
-      90%  { opacity: 0.8; }
-      100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
-    }
-
-    /* ============================================
-       BAŞLIK — AI üretimi logo resmi
-       ============================================ */
-    .baslik {
-      display: block;
-      margin: 0 auto 6px auto;
-      max-width: min(70vw, 360px);
-      width: 100%;
-      height: auto;
-      filter: drop-shadow(0 0 20px rgba(255, 215, 100, 0.6)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
-      animation: baslik-nabiz 3s ease-in-out infinite;
-      z-index: 5;
-      position: relative;
-      pointer-events: none;
-    }
-
-    @keyframes baslik-nabiz {
-      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(255, 215, 100, 0.6)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5)); }
-      50%      { transform: scale(1.02); filter: drop-shadow(0 0 35px rgba(255, 215, 100, 0.9)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5)); }
-    }
-
-    /* ============================================
-       ÜST BİLGİ ÇUBUĞU — ışıldayan kutular
-       ============================================ */
-    .ust-cubuk {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 14px;
-      width: 100%;
-      max-width: 560px;
-      margin-bottom: 10px;
-      flex-wrap: wrap;
-      z-index: 5;
-      position: relative;
-    }
-
-    /* Altın ve hedef kutuları: AI üretimi çerçeve arka planı + ortalanmış metin */
-    .altin-kutu, .hedef-kutu {
-      background-size: 100% 100%;
-      background-repeat: no-repeat;
-      background-position: center;
-      padding: 18px 30px;
-      font-weight: 700;
-      font-size: 18px;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.5));
-    }
-
-    .altin-kutu {
-      background-image: url('public/ui/altin-kutu.png');
-      min-width: 150px;
-      min-height: 90px;
-      font-family: 'Luckiest Guy', cursive;
-      color: #fff8dc;
-      -webkit-text-stroke: 1.5px #5d2f00;
-      text-shadow:
-        0 0 12px rgba(255, 215, 0, 0.9),
-        2px 2px 0 #5d2f00,
-        0 0 20px rgba(255, 180, 0, 0.7);
-      letter-spacing: 2px;
-    }
-
-    .hedef-kutu {
-      background-image: url('public/ui/hedef-kutu.png');
-      min-width: 260px;
-      min-height: 90px;
-      font-family: 'Luckiest Guy', cursive;
-      color: #fff8dc;
-      -webkit-text-stroke: 1.5px #2a1a4e;
-      text-shadow:
-        0 0 12px rgba(255, 215, 0, 0.8),
-        2px 2px 0 #2a1a4e,
-        0 0 20px rgba(200, 150, 255, 0.6);
-      letter-spacing: 2px;
-      flex-direction: column;
       gap: 4px;
-      padding: 22px 50px;
+      padding: 10px 14px;
+      background: rgba(100, 80, 180, 0.3);
+      border: 2px solid rgba(200, 150, 255, 0.4);
+      border-radius: 16px;
+      min-width: 80px;
     }
 
-    .altin-kutu .emoji-buyuk {
-      font-size: 24px;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-      margin-right: 6px;
-    }
-
-    .altin-sayi {
-      display: inline-block;
-      transition: transform 0.2s ease;
-      font-variant-numeric: tabular-nums;
-      font-size: 24px;
-    }
-
-    .altin-sayi.ziplama {
-      transform: scale(1.5) rotate(-8deg);
-      color: #e65100;
-    }
-
-    .hedef-kutu .bolum {
-      font-size: 14px;
-      letter-spacing: 3px;
-      opacity: 0.95;
-      color: #ffe066;
-      -webkit-text-stroke: 1px #2a1a4e;
-    }
-
-    .hedef-kutu #hedefMetni {
-      font-size: 20px;
-    }
-
-    /* ============================================
-       OYUN TAHTASI — 3D altın çerçeveli
-       ============================================ */
-    .tahta-kapsa {
-      background:
-        radial-gradient(ellipse at top, #c0c0ff 0%, #8e8ee8 50%, #4a4a9e 100%);
-      border-radius: 20px;
-      padding: 6px;
-      box-shadow:
-        0 0 0 3px #6a5acd,
-        0 0 0 6px #c0c0ff,
-        0 0 0 8px #4a2d8f,
-        0 15px 50px rgba(100, 100, 255, 0.7),
-        inset 0 3px 8px rgba(255, 255, 255, 0.6),
-        inset 0 -5px 10px rgba(50, 30, 100, 0.4);
-      position: relative;
-      z-index: 5;
-      margin-bottom: 8px;
-    }
-
-    .tahta-ic {
-      background:
-        radial-gradient(circle at 30% 30%, rgba(150, 200, 255, 0.2) 0%, transparent 50%),
-        linear-gradient(135deg, #0f0f3d 0%, #1a0f5e 50%, #0a0a2a 100%);
-      border-radius: 14px;
-      padding: 4px;
-      box-shadow: inset 0 4px 12px rgba(0,0,0,0.7);
-    }
-
-    .tahta {
-      display: grid;
-      grid-template-columns: repeat(8, 1fr);
-      grid-template-rows: repeat(8, 1fr);
-      gap: 2px;
-      /* Kalan yüksekliği saygı duy — güç butonları için yer bırak */
-      width: min(94vw, 540px);
-      height: min(94vw, 540px);
-      position: relative;
-    }
-
-    /* ============================================
-       HÜCRE — 3D parlak şekerleme
-       ============================================ */
-    .hucre {
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.15s ease;
-      position: relative;
-      overflow: visible; /* Kristal hücrenin hafif dışına taşabilsin */
-      background: transparent;
-    }
-
-    /* Her kristal için kendi rengine özgü parıltı halkası */
-    /* 🍰 = Elmas (beyaz/gümüş) */
-    .hucre[data-tatli="🍰"] { filter: drop-shadow(0 0 14px rgba(220, 240, 255, 0.9)) drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
-    /* 🍪 = Yakut (kırmızı) */
-    .hucre[data-tatli="🍪"] { filter: drop-shadow(0 0 14px rgba(255, 40, 80, 0.9)) drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
-    /* 🍓 = Zümrüt (yeşil) */
-    .hucre[data-tatli="🍓"] { filter: drop-shadow(0 0 14px rgba(60, 255, 140, 0.9)) drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
-    /* 🍫 = Safir (mavi) */
-    .hucre[data-tatli="🍫"] { filter: drop-shadow(0 0 14px rgba(60, 140, 255, 0.9)) drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
-    /* 🍦 = Ametist (mor) */
-    .hucre[data-tatli="🍦"] { filter: drop-shadow(0 0 14px rgba(200, 80, 255, 0.9)) drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
-    /* 🍭 = Amber (turuncu/altın) */
-    .hucre[data-tatli="🍭"] { filter: drop-shadow(0 0 14px rgba(255, 180, 40, 0.9)) drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
-
-    /* Kristal görselleri — hücreye tam oturuyor, taşma yok */
-    .hucre img, .hucre svg {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: contain;
-      pointer-events: none;
-      filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.4));
-      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .hucre:hover {
-      transform: scale(1.18) translateY(-4px);
-      z-index: 3;
-    }
-
-    .hucre:hover img, .hucre:hover svg {
-      transform: rotate(-6deg) scale(1.08);
-    }
-
-    .hucre:active { transform: scale(0.92); }
-
-    /* Seçili hücre — pulsing altın halka */
-    .hucre.secili {
-      transform: scale(1.22);
-      z-index: 4;
-      animation: secili-nabiz 0.7s ease-in-out infinite;
-    }
-
-    @keyframes secili-nabiz {
-      0%, 100% { filter: drop-shadow(0 0 18px #ffd700) drop-shadow(0 0 8px #ffd700) brightness(1.15); }
-      50%      { filter: drop-shadow(0 0 30px #fff176) drop-shadow(0 0 12px #ffeb3b) brightness(1.35); }
-    }
-
-    /* Patlama — ışık patlaması + parçalara ayrılma */
-    .hucre.patliyor {
-      animation: patla 0.45s cubic-bezier(0.5, 0, 0.75, 0.2) forwards;
-      pointer-events: none;
-    }
-
-    @keyframes patla {
-      0%   { transform: scale(1);   opacity: 1; filter: brightness(1); }
-      30%  { transform: scale(1.5); opacity: 1; filter: brightness(2.5) saturate(1.5); box-shadow: 0 0 40px #fff; }
-      100% { transform: scale(0) rotate(180deg); opacity: 0; filter: brightness(4); }
-    }
-
-    /* Yeni doğan hücre — yumuşak düşüş */
-    .hucre.dogdu {
-      animation: dus 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    @keyframes dus {
-      0%   { transform: translateY(-50px) scale(0.3); opacity: 0; }
-      60%  { transform: translateY(8px) scale(1.1);   opacity: 1; }
-      100% { transform: translateY(0) scale(1);        opacity: 1; }
-    }
-
-    /* Patlama parçacıkları (JS ile oluşturulur) */
-    .patlama-parcacik {
-      position: absolute;
-      font-size: 14px;
-      pointer-events: none;
-      z-index: 20;
-      animation: parcacik-ucus 0.8s ease-out forwards;
-    }
-
-    @keyframes parcacik-ucus {
-      0%   { transform: translate(0, 0) scale(1)   rotate(0deg);   opacity: 1; }
-      100% { transform: translate(var(--dx), var(--dy)) scale(0) rotate(360deg); opacity: 0; }
-    }
-
-    /* ============================================
-       COMBO POPUP — büyük, parlayan
-       ============================================ */
-    .combo-popup {
-      position: fixed;
-      top: 45%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0.5);
-      font-family: 'Luckiest Guy', cursive;
-      font-size: clamp(40px, 10vw, 80px);
-      letter-spacing: 2px;
+    .giris-istatistik .sayi {
+      font-size: 22px;
       color: #ffd700;
-      -webkit-text-stroke: 3px #c2185b;
-      text-shadow:
-        0 0 30px #ff1493,
-        4px 4px 0 #6a1b9a,
-        0 0 60px #ffd700;
-      pointer-events: none;
-      opacity: 0;
-      z-index: 100;
-      white-space: nowrap;
-    }
-
-    .combo-popup.goster {
-      animation: combo-anim 1.2s ease-out forwards;
-    }
-
-    @keyframes combo-anim {
-      0%   { transform: translate(-50%, -50%) scale(0.2) rotate(-15deg); opacity: 0; }
-      25%  { transform: translate(-50%, -50%) scale(1.5) rotate(8deg);   opacity: 1; }
-      55%  { transform: translate(-50%, -50%) scale(1.0) rotate(-3deg);  opacity: 1; }
-      100% { transform: translate(-50%, -120%) scale(0.8); opacity: 0; }
-    }
-
-    /* ============================================
-       ALT GÜÇLER — parlak düğmeler
-       ============================================ */
-    .gucler {
-      display: flex;
-      gap: 24px;
-      margin-top: 12px;
-      padding: 0 20px 30px 20px;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      z-index: 5;
-      position: relative;
-    }
-
-    .guc-btn {
-      background: transparent;
-      border: none;
-      padding: 0;
-      font-family: inherit;
-      cursor: pointer;
-      position: relative;
-      width: 90px;
-      height: 90px;
-      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4));
-    }
-
-    .guc-btn img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      pointer-events: none;
-    }
-
-    .guc-btn:hover {
-      transform: translateY(-6px) scale(1.1);
-      filter: drop-shadow(0 10px 18px rgba(255, 215, 100, 0.6)) drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-    }
-
-    .guc-btn:active { transform: translateY(0) scale(0.95); }
-
-    /* Güç ikonu altındaki fantastik ad */
-    .guc-btn .ad {
-      position: absolute;
-      bottom: -22px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-family: 'Luckiest Guy', cursive;
-      font-size: 18px;
-      color: #ffd700;
-      -webkit-text-stroke: 2px #4a2d00;
-      text-shadow:
-        0 0 10px rgba(255, 215, 0, 0.9),
-        2px 2px 0 #2a1a00,
-        0 0 20px rgba(255, 150, 0, 0.7);
-      white-space: nowrap;
-      letter-spacing: 2px;
-      pointer-events: none;
-    }
-
-    /* Sağ üstte adet göstergesi — kırmızı daire */
-    .guc-btn .sayi {
-      position: absolute;
-      top: -4px;
-      right: -4px;
-      background: linear-gradient(145deg, #ff5252, #c62828);
-      color: white;
-      border-radius: 50%;
-      min-width: 28px;
-      height: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 15px;
-      font-weight: 700;
-      border: 3px solid #fff;
-      box-shadow: 0 3px 8px rgba(255, 23, 68, 0.6);
-      z-index: 2;
-    }
-
-    .not {
-      margin-top: 12px;
-      font-size: 13px;
-      color: rgba(255, 255, 255, 0.9);
-      text-align: center;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
-      z-index: 5;
-      position: relative;
-    }
-
-    /* Ekran sarsıntısı — büyük combo anında */
-    .sarsil { animation: sarsil 0.35s ease-in-out; }
-    @keyframes sarsil {
-      0%, 100% { transform: translate(0, 0); }
-      20% { transform: translate(-6px, 3px); }
-      40% { transform: translate(6px, -3px); }
-      60% { transform: translate(-5px, 4px); }
-      80% { transform: translate(5px, -2px); }
+      -webkit-text-stroke: 1px #4a2d00;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
     }
   </style>
 </head>
 <body>
 
-  <!-- Arka plan parçacıkları (JS ile doldurulacak) -->
+  <!-- Arka plan parçacıkları -->
   <div id="parcaciklarKatmani"></div>
 
-  <img class="baslik" src="public/ui/logo.png" alt="Kristal Krallığı" />
+  <!-- ======================================================
+       EKRAN 1: GİRİŞ
+       ====================================================== -->
+  <div id="girisEkrani" class="ekran aktif">
+    <div class="giris-icerik">
+      <img class="giris-logo" src="public/ui/logo.png" alt="Kristal Krallığı" />
 
-  <div class="ust-cubuk">
-    <div class="altin-kutu">
-      <span class="emoji-buyuk">💰</span>
-      <span class="altin-sayi" id="altinSayi">0</span>
-    </div>
-    <div class="hedef-kutu">
-      <span class="bolum">✨ BÖLÜM 1 ✨</span>
-      <span id="hedefMetni">Hedef: 30 elmas topla</span>
+      <div class="giris-altyazi">✨ 100 BÖLÜM MACERA ✨</div>
+
+      <div class="giris-butonlar">
+        <button class="buton nabız" onclick="Arayuz.haritaGoster(); Ses?.sesTik();">🎮 OYNA</button>
+      </div>
+
+      <div class="giris-istatistik">
+        <div class="kutu">
+          <div class="sayi" id="girisBolumSayac">0</div>
+          <div>BÖLÜM</div>
+        </div>
+        <div class="kutu">
+          <div class="sayi" id="girisYildizSayac">0</div>
+          <div>⭐ YILDIZ</div>
+        </div>
+        <div class="kutu">
+          <div class="sayi" id="girisAltinSayac">0</div>
+          <div>💰 ALTIN</div>
+        </div>
+      </div>
+
+      <div class="giris-ayarlar">
+        <button class="ayar-btn" id="sesBtn" title="Ses efektleri">🔊</button>
+        <button class="ayar-btn" id="muzikBtn" title="Müzik">🎵</button>
+        <button class="ayar-btn" id="titresimBtn" title="Titreşim">📳</button>
+        <button class="ayar-btn" id="sifirlaBtn" title="İlerlemeyi sıfırla">🔄</button>
+      </div>
     </div>
   </div>
 
-  <div class="tahta-kapsa">
-    <div class="tahta-ic">
-      <div class="tahta" id="tahta"></div>
+  <!-- ======================================================
+       EKRAN 2: HARİTA (bölüm listesi)
+       ====================================================== -->
+  <div id="haritaEkrani" class="ekran">
+    <div class="harita-baslik">
+      <button class="geri-btn" onclick="Arayuz.girisGoster(); Ses?.sesTik();">←</button>
+      <h1>BÖLÜMLER</h1>
+      <div class="harita-altin">💰 <span id="haritaAltin">0</span></div>
+    </div>
+    <div class="harita-liste" id="haritaListe"></div>
+  </div>
+
+  <!-- ======================================================
+       EKRAN 3: OYUN
+       ====================================================== -->
+  <div id="oyunEkrani" class="ekran">
+    <!-- Üst çubuk -->
+    <div class="ust-cubuk">
+      <button class="geri-btn" onclick="Arayuz.haritaGoster(); Ses?.sesTik();">←</button>
+      <div class="altin-kutu">
+        <span class="altin-emoji">💰</span>
+        <span id="altinSayi">0</span>
+      </div>
+      <div class="hamle-kutu">
+        <span id="hamleSayi">0</span>
+      </div>
+    </div>
+
+    <!-- Hedef -->
+    <div id="hedefBolge">
+      <div class="hedef-kutu">
+        <span class="hedef-bolum-no" id="bolumNo">BÖLÜM 1</span>
+        <span class="hedef-metin" id="hedefMetni">Hedef yükleniyor...</span>
+      </div>
+    </div>
+
+    <!-- Tahta -->
+    <div class="tahta-kapsa">
+      <div class="tahta-ic">
+        <div class="tahta" id="tahta"></div>
+      </div>
+    </div>
+
+    <!-- Güçler -->
+    <div class="gucler">
+      <button class="guc-btn" data-guc="cekic" onclick="Arayuz.oyun.gucSec('cekic')">
+        <img src="public/ui/guc-cekic.png" alt="" draggable="false" />
+        <span class="ad">ÇEKİÇ</span>
+        <span class="sayi">0</span>
+      </button>
+      <button class="guc-btn" data-guc="karistir" onclick="Arayuz.oyun.gucSec('karistir')">
+        <img src="public/ui/guc-karistir.png" alt="" draggable="false" />
+        <span class="ad">KARIŞTIR</span>
+        <span class="sayi">0</span>
+      </button>
+      <button class="guc-btn" data-guc="bomba" onclick="Arayuz.oyun.gucSec('bomba')">
+        <img src="public/ui/guc-bomba.png" alt="" draggable="false" />
+        <span class="ad">BOMBA</span>
+        <span class="sayi">0</span>
+      </button>
     </div>
   </div>
 
-  <div class="gucler">
-    <button class="guc-btn" title="Çekiç — 1 kristali kır">
-      <img src="public/ui/guc-cekic.png" alt="" />
-      <span class="ad">ÇEKİÇ</span>
-      <span class="sayi">2</span>
-    </button>
-    <button class="guc-btn" title="Karıştır — tahtayı yenile">
-      <img src="public/ui/guc-karistir.png" alt="" />
-      <span class="ad">KARIŞTIR</span>
-      <span class="sayi">1</span>
-    </button>
-    <button class="guc-btn" title="Bomba — 3x3 patlat">
-      <img src="public/ui/guc-bomba.png" alt="" />
-      <span class="ad">BOMBA</span>
-      <span class="sayi">1</span>
-    </button>
-  </div>
-
-  <p class="not">💎 Komşu iki kristali değiştir, 3 veya daha fazlasını yan yana getir!</p>
-
+  <!-- Combo popup (oyun ekranının üstünde yüzer) -->
   <div class="combo-popup" id="comboPopup"></div>
 
-  <!-- Tatlı şekilleri (SVG koleksiyonu) -->
-  <script src="sekiller.js"></script>
+  <!-- ======================================================
+       MODAL: BÖLÜM TAMAMLANDI
+       ====================================================== -->
+  <div class="modal-arka" id="kazandiModal">
+    <div class="modal">
+      <h2>🎉 BAŞARDIN! 🎉</h2>
+      <div class="yildizlar" id="kazandiYildizlar"></div>
+      <p>BÖLÜM <span id="kazandiBolumNo">1</span> tamamlandı!</p>
+      <p>Puan: <strong id="kazandiPuan">0</strong><br>
+         Altın: <strong>💰 <span id="kazandiAltin">0</span></strong></p>
+      <div class="buton-grup">
+        <button class="buton kucuk mor" onclick="Arayuz.modalKapat('kazandiModal'); Arayuz.haritaGoster(); Ses?.sesTik();">🗺️ HARİTA</button>
+        <button class="buton kucuk" id="kazandiSonrakiBtn">▶️ DEVAM</button>
+      </div>
+    </div>
+  </div>
 
+  <!-- ======================================================
+       MODAL: BÖLÜM BAŞARISIZ
+       ====================================================== -->
+  <div class="modal-arka" id="kaybetModal">
+    <div class="modal">
+      <h2>💔 HAMLELER BİTTİ</h2>
+      <p>BÖLÜM <span id="kaybetBolumNo">1</span> tamamlanamadı.</p>
+      <p>Bir daha dene — her denemede daha iyi olacaksın!</p>
+      <div class="buton-grup">
+        <button class="buton kucuk mor" onclick="Arayuz.modalKapat('kaybetModal'); Arayuz.haritaGoster(); Ses?.sesTik();">🗺️ HARİTA</button>
+        <button class="buton kucuk kirmizi" id="kaybetYenidenBtn">🔁 TEKRAR</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================
+       SCRIPTLER
+       ====================================================== -->
+  <script src="data/bolumler.js"></script>
+  <script src="js/kayit.js"></script>
+  <script src="js/ses.js"></script>
+  <script src="js/oyun.js"></script>
+  <script src="js/arayuz.js"></script>
   <script>
     // ==========================================================
-    // PASTA ŞEFİ'NİN YÜKSELİŞİ — v0.1.1 Zengin Arayüz
+    // BAŞLATMA — sayfa yüklendiğinde
     // ==========================================================
 
-    const BOYUT = 8;
-    // Eski emoji anahtarları korundu — her biri artık bir kristal temsil ediyor
-    // 🍰 = Elmas, 🍪 = Yakut, 🍓 = Zümrüt, 🍫 = Safir, 🍦 = Ametist, 🍭 = Amber
-    const TATLILAR = ['🍰', '🍪', '🍓', '🍫', '🍦', '🍭'];
-    const KRISTAL_ADLARI = {
-      '🍰': 'elmas',
-      '🍪': 'yakut',
-      '🍓': 'zümrüt',
-      '🍫': 'safir',
-      '🍦': 'ametist',
-      '🍭': 'amber'
-    };
-    const HEDEF_TATLI = '🍰';
-    const HEDEF_SAYI = 30;
-    const PUAN_BASINA_ALTIN = 10;
-
-    let tahta = [];
-    let secili = null;
-    let altin = 0;
-    let toplananHedef = 0;
-    let meşgul = false;
-    let comboSayaci = 0;
-
-    const tahtaEl = document.getElementById('tahta');
-    const altinEl = document.getElementById('altinSayi');
-    const hedefMetniEl = document.getElementById('hedefMetni');
-    const comboPopup = document.getElementById('comboPopup');
-
-    // ==========================================================
-    // ARKA PLAN PARÇACIKLARI (yağan kalpler, yıldızlar)
-    // ==========================================================
-    function parcaciklariBaslat() {
+    // Arka plan parçacıklarını doldur
+    (function parcaciklar() {
       const katman = document.getElementById('parcaciklarKatmani');
-      const semboller = ['💖', '⭐', '✨', '🍬', '🌟', '💫'];
-      for (let i = 0; i < 18; i++) {
+      const semboller = ['💖', '⭐', '✨', '💎', '🌟', '💫'];
+      for (let i = 0; i < 14; i++) {
         const p = document.createElement('div');
         p.className = 'parcacik';
         p.textContent = semboller[Math.floor(Math.random() * semboller.length)];
         p.style.left = (Math.random() * 100) + '%';
-        p.style.animationDuration = (8 + Math.random() * 10) + 's';
-        p.style.animationDelay = (Math.random() * 12) + 's';
-        p.style.fontSize = (16 + Math.random() * 18) + 'px';
-        p.style.color = ['#ff69b4', '#ffd700', '#ff1493', '#9c27b0', '#00bcd4'][Math.floor(Math.random() * 5)];
+        p.style.animationDuration = (10 + Math.random() * 12) + 's';
+        p.style.animationDelay = (Math.random() * 14) + 's';
+        p.style.fontSize = (14 + Math.random() * 14) + 'px';
+        p.style.color = ['#ff69b4', '#ffd700', '#00bcd4', '#9c27b0', '#4caf50'][Math.floor(Math.random() * 5)];
         katman.appendChild(p);
       }
+    })();
+
+    // Ayar düğmeleri
+    function ayarlariYukle() {
+      const kayit = KayitSistemi.yukle();
+      const sesBtn = document.getElementById('sesBtn');
+      const muzikBtn = document.getElementById('muzikBtn');
+      const titresimBtn = document.getElementById('titresimBtn');
+
+      sesBtn?.classList.toggle('kapalı', !kayit.ayarlar.ses);
+      muzikBtn?.classList.toggle('kapalı', !kayit.ayarlar.muzik);
+      titresimBtn?.classList.toggle('kapalı', !kayit.ayarlar.titresim);
+
+      Ses.sesleriAc(kayit.ayarlar.ses);
+      Ses.muzigiAc(kayit.ayarlar.muzik);
+      window.Titresim.aktif = kayit.ayarlar.titresim;
     }
 
-    // ==========================================================
-    // BAŞLANGIÇ TAHTASI
-    // ==========================================================
-    function tahtaOlustur() {
-      tahta = [];
-      for (let s = 0; s < BOYUT; s++) {
-        const satir = [];
-        for (let st = 0; st < BOYUT; st++) {
-          satir.push(rastgeleTatli(s, st, satir));
-        }
-        tahta.push(satir);
+    document.getElementById('sesBtn')?.addEventListener('click', () => {
+      Ses.baslat();
+      const kayit = KayitSistemi.yukle();
+      kayit.ayarlar.ses = !kayit.ayarlar.ses;
+      KayitSistemi.yaz(kayit);
+      ayarlariYukle();
+      if (kayit.ayarlar.ses) Ses.sesTik();
+    });
+
+    document.getElementById('muzikBtn')?.addEventListener('click', () => {
+      Ses.baslat();
+      const kayit = KayitSistemi.yukle();
+      kayit.ayarlar.muzik = !kayit.ayarlar.muzik;
+      KayitSistemi.yaz(kayit);
+      ayarlariYukle();
+      Ses.sesTik();
+    });
+
+    document.getElementById('titresimBtn')?.addEventListener('click', () => {
+      const kayit = KayitSistemi.yukle();
+      kayit.ayarlar.titresim = !kayit.ayarlar.titresim;
+      KayitSistemi.yaz(kayit);
+      ayarlariYukle();
+      Ses.sesTik();
+      if (kayit.ayarlar.titresim && navigator.vibrate) navigator.vibrate(50);
+    });
+
+    document.getElementById('sifirlaBtn')?.addEventListener('click', () => {
+      if (confirm('⚠️ Tüm ilerleme silinecek. Emin misin?')) {
+        KayitSistemi.sifirla();
+        ayarlariYukle();
+        Arayuz.girisIstatistikleriGuncelle();
+        alert('✨ İlerleme sıfırlandı. Yeni maceraya hazırsın!');
       }
-    }
+    });
 
-    function rastgeleTatli(s, st, suAnkiSatir) {
-      const yasak = new Set();
-      if (st >= 2 && suAnkiSatir[st - 1] === suAnkiSatir[st - 2]) {
-        yasak.add(suAnkiSatir[st - 1]);
-      }
-      if (s >= 2 && tahta[s - 1][st] === tahta[s - 2][st]) {
-        yasak.add(tahta[s - 1][st]);
-      }
-      const aday = TATLILAR.filter(t => !yasak.has(t));
-      return aday[Math.floor(Math.random() * aday.length)];
-    }
+    // Kaybet modal — yeniden dene butonu
+    document.getElementById('kaybetYenidenBtn')?.addEventListener('click', () => {
+      Ses?.sesTik();
+      const bolumNo = parseInt(document.getElementById('kaybetBolumNo').textContent);
+      Arayuz.modalKapat('kaybetModal');
+      Arayuz.bolumBaslat(bolumNo);
+    });
 
-    // ==========================================================
-    // ÇİZ
-    // ==========================================================
-    function cizdir() {
-      tahtaEl.innerHTML = '';
-      for (let s = 0; s < BOYUT; s++) {
-        for (let st = 0; st < BOYUT; st++) {
-          const h = document.createElement('div');
-          h.className = 'hucre';
-          h.dataset.s = s;
-          h.dataset.st = st;
-          h.dataset.tatli = tahta[s][st];
-
-          // Emoji yerine SVG çizimi
-          h.innerHTML = window.SEKILLER[tahta[s][st]] || '';
-
-          if (secili && secili.s === s && secili.st === st) {
-            h.classList.add('secili');
-          }
-          h.addEventListener('click', () => hucreyeTiklandi(s, st));
-          tahtaEl.appendChild(h);
-        }
-      }
-    }
-
-    function hucreEl(s, st) {
-      return tahtaEl.querySelector(`.hucre[data-s="${s}"][data-st="${st}"]`);
-    }
-
-    // ==========================================================
-    // TIKLAMA
-    // ==========================================================
-    function hucreyeTiklandi(s, st) {
-      if (meşgul) return;
-
-      if (!secili) {
-        secili = { s, st };
-        cizdir();
-        return;
-      }
-
-      if (secili.s === s && secili.st === st) {
-        secili = null;
-        cizdir();
-        return;
-      }
-
-      const komsu = (Math.abs(secili.s - s) + Math.abs(secili.st - st)) === 1;
-      if (!komsu) {
-        secili = { s, st };
-        cizdir();
-        return;
-      }
-
-      const a = { ...secili };
-      const b = { s, st };
-      secili = null;
-      yerDegistirVeKontrolEt(a, b);
-    }
-
-    // ==========================================================
-    // YER DEĞİŞTİRME + KONTROL
-    // ==========================================================
-    async function yerDegistirVeKontrolEt(a, b) {
-      meşgul = true;
-      degistir(a, b);
-      cizdir();
-      await bekle(200);
-
-      const eslesmeler = eslesmeleriBul();
-      if (eslesmeler.length === 0) {
-        degistir(a, b);
-        cizdir();
-        await bekle(200);
-        meşgul = false;
-        return;
-      }
-
-      comboSayaci = 0;
-      await patlamaZinciri();
-      meşgul = false;
-    }
-
-    function degistir(a, b) {
-      const tmp = tahta[a.s][a.st];
-      tahta[a.s][a.st] = tahta[b.s][b.st];
-      tahta[b.s][b.st] = tmp;
-    }
-
-    // ==========================================================
-    // EŞLEŞME BUL
-    // ==========================================================
-    function eslesmeleriBul() {
-      const isaretli = Array.from({ length: BOYUT }, () => new Array(BOYUT).fill(false));
-
-      for (let s = 0; s < BOYUT; s++) {
-        let baslangic = 0;
-        while (baslangic < BOYUT) {
-          const emoji = tahta[s][baslangic];
-          let son = baslangic;
-          while (son + 1 < BOYUT && tahta[s][son + 1] === emoji) son++;
-          if (son - baslangic + 1 >= 3) {
-            for (let k = baslangic; k <= son; k++) isaretli[s][k] = true;
-          }
-          baslangic = son + 1;
-        }
-      }
-
-      for (let st = 0; st < BOYUT; st++) {
-        let baslangic = 0;
-        while (baslangic < BOYUT) {
-          const emoji = tahta[baslangic][st];
-          let son = baslangic;
-          while (son + 1 < BOYUT && tahta[son + 1][st] === emoji) son++;
-          if (son - baslangic + 1 >= 3) {
-            for (let k = baslangic; k <= son; k++) isaretli[k][st] = true;
-          }
-          baslangic = son + 1;
-        }
-      }
-
-      const sonuc = [];
-      for (let s = 0; s < BOYUT; s++) {
-        for (let st = 0; st < BOYUT; st++) {
-          if (isaretli[s][st]) sonuc.push({ s, st, emoji: tahta[s][st] });
-        }
-      }
-      return sonuc;
-    }
-
-    // ==========================================================
-    // PATLAMA ZİNCİRİ
-    // ==========================================================
-    async function patlamaZinciri() {
-      while (true) {
-        const eslesmeler = eslesmeleriBul();
-        if (eslesmeler.length === 0) return;
-
-        comboSayaci++;
-        if (comboSayaci >= 2) {
-          comboGoster(comboSayaci);
-          if (comboSayaci >= 3) sarsilEkrani();
-        }
-
-        // Patlama animasyonu + parçacık efekti
-        eslesmeler.forEach(({ s, st, emoji }) => {
-          const el = hucreEl(s, st);
-          if (el) {
-            el.classList.add('patliyor');
-            patlamaParcaciklari(el, emoji);
-          }
-          if (emoji === HEDEF_TATLI) toplananHedef++;
+    // Service Worker kaydet (offline çalışma)
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(e => {
+          console.log('SW kaydedilmedi:', e);
         });
-
-        const kazanilan = eslesmeler.length * PUAN_BASINA_ALTIN * comboSayaci;
-        altinEkle(kazanilan);
-        hedefGuncelle();
-
-        await bekle(450);
-
-        eslesmeler.forEach(({ s, st }) => {
-          tahta[s][st] = null;
-        });
-
-        yercekimi();
-        cizdir();
-
-        tahtaEl.querySelectorAll('.hucre').forEach(el => {
-          el.classList.add('dogdu');
-          setTimeout(() => el.classList.remove('dogdu'), 450);
-        });
-
-        await bekle(350);
-      }
+      });
     }
 
-    // Patlayan hücreden 8 yönde parçacık uç (renkli ışıltılar + yıldızlar)
-    function patlamaParcaciklari(el, emoji) {
-      const rect = el.getBoundingClientRect();
-      // Her kristalın kendi rengi
-      const renkler = {
-        '🍰': ['#ffffff', '#e3f2fd', '#b3e5fc'],     // elmas — beyaz/gümüş
-        '🍪': ['#ff1744', '#d50000', '#ff5252'],     // yakut — kırmızı
-        '🍓': ['#00e676', '#00c853', '#69f0ae'],     // zümrüt — yeşil
-        '🍫': ['#448aff', '#2962ff', '#82b1ff'],     // safir — mavi
-        '🍦': ['#e040fb', '#aa00ff', '#ea80fc'],     // ametist — mor
-        '🍭': ['#ff9100', '#ffab00', '#ffd54f']      // amber — turuncu/altın
-      };
-      const paletRenkleri = renkler[emoji] || ['#fff'];
-      const semboller = ['✨', '⭐', '💫', '🌟'];
-      for (let i = 0; i < 10; i++) {
-        const p = document.createElement('div');
-        p.className = 'patlama-parcacik';
-        // Yarı yıldız yarı renkli nokta
-        if (i % 2 === 0) {
-          p.textContent = semboller[Math.floor(Math.random() * semboller.length)];
-        } else {
-          // Renkli daire
-          p.textContent = '●';
-          p.style.color = paletRenkleri[Math.floor(Math.random() * paletRenkleri.length)];
-          p.style.textShadow = `0 0 8px ${paletRenkleri[0]}`;
-        }
-        p.style.left = (rect.left + rect.width / 2) + 'px';
-        p.style.top = (rect.top + rect.height / 2) + 'px';
-        const aci = (Math.PI * 2 * i) / 10 + Math.random() * 0.3;
-        const mesafe = 70 + Math.random() * 50;
-        p.style.setProperty('--dx', Math.cos(aci) * mesafe + 'px');
-        p.style.setProperty('--dy', Math.sin(aci) * mesafe + 'px');
-        p.style.fontSize = (14 + Math.random() * 14) + 'px';
-        document.body.appendChild(p);
-        setTimeout(() => p.remove(), 850);
-      }
-    }
+    // Başlat
+    ayarlariYukle();
+    Arayuz.girisIstatistikleriGuncelle();
 
-    function yercekimi() {
-      for (let st = 0; st < BOYUT; st++) {
-        let yazmaSatiri = BOYUT - 1;
-        for (let s = BOYUT - 1; s >= 0; s--) {
-          if (tahta[s][st] !== null) {
-            tahta[yazmaSatiri][st] = tahta[s][st];
-            if (yazmaSatiri !== s) tahta[s][st] = null;
-            yazmaSatiri--;
-          }
-        }
-        for (let s = yazmaSatiri; s >= 0; s--) {
-          tahta[s][st] = TATLILAR[Math.floor(Math.random() * TATLILAR.length)];
-        }
-      }
-    }
-
-    // ==========================================================
-    // UI GÜNCELLEMELER
-    // ==========================================================
-    function altinEkle(miktar) {
-      altin += miktar;
-      altinEl.textContent = altin;
-      altinEl.classList.add('ziplama');
-      setTimeout(() => altinEl.classList.remove('ziplama'), 220);
-    }
-
-    function hedefGuncelle() {
-      if (toplananHedef >= HEDEF_SAYI) {
-        hedefMetniEl.textContent = '🎉 BÖLÜM TAMAMLANDI! 🎉';
-      } else {
-        const ad = KRISTAL_ADLARI[HEDEF_TATLI] || 'kristal';
-        hedefMetniEl.textContent = `${toplananHedef} / ${HEDEF_SAYI} ${ad} topla`;
-      }
-    }
-
-    function comboGoster(sayi) {
-      const metinler = {
-        2: '✨ GÜZEL ✨',
-        3: '🔥 SÜPER 🔥',
-        4: '⭐ HARİKA ⭐',
-        5: '💥 EFSANE 💥'
-      };
-      comboPopup.textContent = metinler[sayi] || `🌟 İNANILMAZ 🌟`;
-      comboPopup.classList.remove('goster');
-      void comboPopup.offsetWidth;
-      comboPopup.classList.add('goster');
-    }
-
-    function sarsilEkrani() {
-      document.body.classList.add('sarsil');
-      setTimeout(() => document.body.classList.remove('sarsil'), 380);
-    }
-
-    // ==========================================================
-    // YARDIMCI
-    // ==========================================================
-    function bekle(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
-    // ==========================================================
-    // BAŞLAT
-    // ==========================================================
-    parcaciklariBaslat();
-    tahtaOlustur();
-    cizdir();
-    hedefGuncelle();
+    // iOS sesleri ilk dokunuşta aç
+    document.addEventListener('touchstart', () => Ses?.baslat(), { once: true });
+    document.addEventListener('click', () => Ses?.baslat(), { once: true });
   </script>
 </body>
 </html>
