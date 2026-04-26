@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>🍰 Pasta Şefi'nin Yükselişi</title>
+
+  <!-- Google Fonts: Fredoka (yuvarlak, ne'şeli bir yazı tipi) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================
+       TEMEL AYARLAR
+       ============================================ */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      min-height: 100vh;
+      font-family: 'Fredoka', sans-serif;
+      /* Pastane temalı pastel gradyan arka plan */
+      background: linear-gradient(135deg, #ffe0ec 0%, #fff3dd 50%, #ffd4e5 100%);
+      color: #5c2b5a;
+      overflow-x: hidden;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+      padding-bottom: 32px;
+    }
+
+    /* ============================================
+       ÜST BAŞLIK
+       ============================================ */
+    .baslik {
+      font-size: clamp(28px, 6vw, 44px);
+      font-weight: 700;
+      color: #c2185b;
+      text-align: center;
+      margin: 8px 0 16px 0;
+      text-shadow: 2px 2px 0 #fff, 4px 4px 12px rgba(194, 24, 91, 0.2);
+      letter-spacing: 0.5px;
+    }
+
+    /* ============================================
+       ÜST BİLGİ ÇUBUĞU (altın + hedef)
+       ============================================ */
+    .ust-cubuk {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      max-width: 560px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .altin-kutu, .hedef-kutu {
+      background: white;
+      border-radius: 18px;
+      padding: 12px 20px;
+      box-shadow: 0 4px 14px rgba(194, 24, 91, 0.15);
+      font-weight: 600;
+      font-size: 18px;
+      border: 3px solid #fff3dd;
+    }
+
+    .altin-kutu {
+      color: #d4a017;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 130px;
+    }
+
+    .altin-sayi {
+      display: inline-block;
+      transition: transform 0.2s ease;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .altin-sayi.ziplama {
+      transform: scale(1.4);
+      color: #ff6b35;
+    }
+
+    .hedef-kutu {
+      color: #5c2b5a;
+      flex: 1;
+      min-width: 200px;
+      text-align: center;
+    }
+
+    .hedef-kutu .bolum {
+      font-size: 13px;
+      opacity: 0.7;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    /* ============================================
+       OYUN TAHTASI
+       ============================================ */
+    .tahta-kapsa {
+      background: white;
+      border-radius: 24px;
+      padding: 12px;
+      box-shadow: 0 10px 30px rgba(194, 24, 91, 0.2);
+      border: 4px solid #fff;
+    }
+
+    .tahta {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      grid-template-rows: repeat(8, 1fr);
+      gap: 4px;
+      /* Mobilde ekrana sığması için min fonksiyonu */
+      width: min(88vw, 480px);
+      height: min(88vw, 480px);
+    }
+
+    .hucre {
+      background: linear-gradient(135deg, #fff5f9 0%, #ffe0ec 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(22px, 5.5vw, 40px);
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.25s ease;
+      box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.8), 0 1px 2px rgba(0,0,0,0.04);
+      position: relative;
+    }
+
+    .hucre:hover {
+      transform: scale(1.08);
+      box-shadow: 0 4px 10px rgba(194, 24, 91, 0.25);
+      z-index: 2;
+    }
+
+    .hucre:active {
+      transform: scale(0.96);
+    }
+
+    /* Seçili hücre — parlak bir halka */
+    .hucre.secili {
+      transform: scale(1.15);
+      box-shadow: 0 0 0 3px #ff6b35, 0 6px 16px rgba(255, 107, 53, 0.4);
+      z-index: 3;
+      animation: nabiz 0.8s ease-in-out infinite;
+    }
+
+    @keyframes nabiz {
+      0%, 100% { box-shadow: 0 0 0 3px #ff6b35, 0 6px 16px rgba(255, 107, 53, 0.4); }
+      50%      { box-shadow: 0 0 0 5px #ffa45b, 0 8px 20px rgba(255, 107, 53, 0.6); }
+    }
+
+    /* Patlama animasyonu */
+    .hucre.patliyor {
+      animation: patla 0.35s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes patla {
+      0%   { transform: scale(1);   opacity: 1; }
+      40%  { transform: scale(1.5); opacity: 0.9; filter: brightness(1.4); }
+      100% { transform: scale(0);   opacity: 0; }
+    }
+
+    /* Yeni doğan hücre — yukarıdan düşüyormuş gibi */
+    .hucre.dogdu {
+      animation: dus 0.3s ease-out;
+    }
+
+    @keyframes dus {
+      from { transform: translateY(-30px); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
+
+    /* ============================================
+       COMBO POPUP
+       ============================================ */
+    .combo-popup {
+      position: fixed;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.5);
+      font-size: clamp(32px, 8vw, 64px);
+      font-weight: 700;
+      color: #ff6b35;
+      text-shadow: 3px 3px 0 #fff, 6px 6px 20px rgba(255, 107, 53, 0.5);
+      pointer-events: none;
+      opacity: 0;
+      z-index: 100;
+      white-space: nowrap;
+    }
+
+    .combo-popup.goster {
+      animation: combo-anim 1s ease-out forwards;
+    }
+
+    @keyframes combo-anim {
+      0%   { transform: translate(-50%, -50%) scale(0.3) rotate(-8deg); opacity: 0; }
+      30%  { transform: translate(-50%, -50%) scale(1.2) rotate(4deg);  opacity: 1; }
+      60%  { transform: translate(-50%, -50%) scale(1.0) rotate(-2deg); opacity: 1; }
+      100% { transform: translate(-50%, -80%) scale(0.9); opacity: 0; }
+    }
+
+    /* ============================================
+       ALT GÜÇLER ALANI
+       ============================================ */
+    .gucler {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .guc-btn {
+      background: white;
+      border: 3px solid #fff3dd;
+      border-radius: 16px;
+      padding: 10px 18px;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 600;
+      color: #5c2b5a;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(194, 24, 91, 0.12);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .guc-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(194, 24, 91, 0.2);
+    }
+
+    .guc-btn:active {
+      transform: translateY(0);
+    }
+
+    .guc-btn .emoji {
+      font-size: 24px;
+    }
+
+    .guc-btn .sayi {
+      background: #ff6b35;
+      color: white;
+      border-radius: 10px;
+      padding: 2px 8px;
+      font-size: 13px;
+      margin-left: 4px;
+    }
+
+    /* Küçük bilgi notu (dekoratif olduğunu belirtmek için) */
+    .not {
+      margin-top: 14px;
+      font-size: 13px;
+      color: #8d5875;
+      text-align: center;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 class="baslik">🍰 Pasta Şefi'nin Yükselişi</h1>
+
+  <!-- Üst bilgi çubuğu: altın ve hedef -->
+  <div class="ust-cubuk">
+    <div class="altin-kutu">
+      🪙 <span class="altin-sayi" id="altinSayi">0</span>
+    </div>
+    <div class="hedef-kutu">
+      <span class="bolum">Bölüm 1</span>
+      <span id="hedefMetni">Hedef: 30 🍰 topla</span>
+    </div>
+  </div>
+
+  <!-- Oyun tahtası -->
+  <div class="tahta-kapsa">
+    <div class="tahta" id="tahta"></div>
+  </div>
+
+  <!-- Alt güçler (şimdilik dekoratif) -->
+  <div class="gucler">
+    <button class="guc-btn" title="Yakında aktif olacak">
+      <span class="emoji">🔨</span> Çekiç <span class="sayi">2</span>
+    </button>
+    <button class="guc-btn" title="Yakında aktif olacak">
+      <span class="emoji">🔀</span> Karıştır <span class="sayi">1</span>
+    </button>
+    <button class="guc-btn" title="Yakında aktif olacak">
+      <span class="emoji">💣</span> Bomba <span class="sayi">1</span>
+    </button>
+  </div>
+
+  <p class="not">💡 İki komşu tatlıyı değiştir, 3 veya daha fazlasını yan yana getir → altın kazan!</p>
+
+  <!-- Combo popup (JS ile gösterilecek) -->
+  <div class="combo-popup" id="comboPopup"></div>
+
+  <script>
+    // ==========================================================
+    // PASTA ŞEFİ'NİN YÜKSELİŞİ — v0.1 Prototip
+    // Temel match-3 mantığı. Vanilla JavaScript.
+    // ==========================================================
+
+    // --- Sabitler ---
+    const BOYUT = 8;                                   // 8x8 tahta
+    const TATLILAR = ['🍰', '🍪', '🍓', '🍫', '🍦', '🍭']; // 6 farklı tatlı
+    const HEDEF_TATLI = '🍰';                          // Bölüm 1 hedefi: kek
+    const HEDEF_SAYI = 30;                             // 30 tane kek topla
+    const PUAN_BASINA_ALTIN = 10;                      // Her patlama = 10 altın
+
+    // --- Durum değişkenleri ---
+    let tahta = [];              // 2B dizi: tahta[satir][sutun] = emoji
+    let secili = null;           // Şu an seçili hücre {s, st} veya null
+    let altin = 0;               // Toplam kazanılan altın
+    let toplananHedef = 0;       // Hedef tatlıdan kaç tane toplandı
+    let meşgul = false;          // Animasyon/patlama sırasında tıklamayı engelle
+    let comboSayaci = 0;         // Zincirleme combo sayısı
+
+    // --- DOM referansları ---
+    const tahtaEl = document.getElementById('tahta');
+    const altinEl = document.getElementById('altinSayi');
+    const hedefMetniEl = document.getElementById('hedefMetni');
+    const comboPopup = document.getElementById('comboPopup');
+
+    // ==========================================================
+    // BAŞLANGIÇ: Tahtayı doldur (başlangıçta eşleşme olmamalı)
+    // ==========================================================
+    function tahtaOlustur() {
+      tahta = [];
+      for (let s = 0; s < BOYUT; s++) {
+        const satir = [];
+        for (let st = 0; st < BOYUT; st++) {
+          satir.push(rastgeleTatli(s, st, satir));
+        }
+        tahta.push(satir);
+      }
+    }
+
+    // Yeni bir tatlı seç — eklendiğinde 3'lü eşleşme yapmayacak olanı
+    function rastgeleTatli(s, st, suAnkiSatir) {
+      const yasak = new Set();
+      // Yatay 2'li kontrol: aynı satırda son 2 tatlı aynıysa 3'üncü farklı olmalı
+      if (st >= 2 && suAnkiSatir[st - 1] === suAnkiSatir[st - 2]) {
+        yasak.add(suAnkiSatir[st - 1]);
+      }
+      // Dikey 2'li kontrol: aynı sütunda üstte 2 tatlı aynıysa bu farklı olmalı
+      if (s >= 2 && tahta[s - 1][st] === tahta[s - 2][st]) {
+        yasak.add(tahta[s - 1][st]);
+      }
+      const aday = TATLILAR.filter(t => !yasak.has(t));
+      return aday[Math.floor(Math.random() * aday.length)];
+    }
+
+    // ==========================================================
+    // GÖRSELLEŞTİRME: DOM'a tahtayı yansıt
+    // ==========================================================
+    function cizdir() {
+      tahtaEl.innerHTML = '';
+      for (let s = 0; s < BOYUT; s++) {
+        for (let st = 0; st < BOYUT; st++) {
+          const h = document.createElement('div');
+          h.className = 'hucre';
+          h.dataset.s = s;
+          h.dataset.st = st;
+          h.textContent = tahta[s][st];
+          if (secili && secili.s === s && secili.st === st) {
+            h.classList.add('secili');
+          }
+          h.addEventListener('click', () => hucreyeTiklandi(s, st));
+          tahtaEl.appendChild(h);
+        }
+      }
+    }
+
+    function hucreEl(s, st) {
+      return tahtaEl.querySelector(`.hucre[data-s="${s}"][data-st="${st}"]`);
+    }
+
+    // ==========================================================
+    // KULLANICI ETKİLEŞİMİ: hücreye tıklama
+    // ==========================================================
+    function hucreyeTiklandi(s, st) {
+      if (meşgul) return;
+
+      if (!secili) {
+        // Henüz seçim yok → bu hücreyi seç
+        secili = { s, st };
+        cizdir();
+        return;
+      }
+
+      // Aynı hücreye tekrar tıklandı → seçimi iptal et
+      if (secili.s === s && secili.st === st) {
+        secili = null;
+        cizdir();
+        return;
+      }
+
+      // Komşu mu? (sadece yatay/dikey komşu geçerli)
+      const komsu = (Math.abs(secili.s - s) + Math.abs(secili.st - st)) === 1;
+      if (!komsu) {
+        // Komşu değilse, yeni hücreyi seç
+        secili = { s, st };
+        cizdir();
+        return;
+      }
+
+      // Komşu → yer değiştirmeyi dene
+      const a = { ...secili };
+      const b = { s, st };
+      secili = null;
+      yerDegistirVeKontrolEt(a, b);
+    }
+
+    // ==========================================================
+    // YER DEĞİŞTİRME + EŞLEŞME KONTROLÜ
+    // ==========================================================
+    async function yerDegistirVeKontrolEt(a, b) {
+      meşgul = true;
+      degistir(a, b);
+      cizdir();
+
+      // Küçük bir gecikme — kullanıcı hareketi görsün
+      await bekle(180);
+
+      const eslesmeler = eslesmeleriBul();
+      if (eslesmeler.length === 0) {
+        // Geçersiz hamle — geri al
+        degistir(a, b);
+        cizdir();
+        await bekle(180);
+        meşgul = false;
+        return;
+      }
+
+      // Zincirleme patlama döngüsü
+      comboSayaci = 0;
+      await patlamaZinciri();
+      meşgul = false;
+    }
+
+    function degistir(a, b) {
+      const tmp = tahta[a.s][a.st];
+      tahta[a.s][a.st] = tahta[b.s][b.st];
+      tahta[b.s][b.st] = tmp;
+    }
+
+    // ==========================================================
+    // EŞLEŞME BUL: 3 veya daha fazla aynı tatlı yan yana / alt alta
+    // ==========================================================
+    function eslesmeleriBul() {
+      const isaretli = Array.from({ length: BOYUT }, () => new Array(BOYUT).fill(false));
+
+      // Yatay taramalar
+      for (let s = 0; s < BOYUT; s++) {
+        let baslangic = 0;
+        while (baslangic < BOYUT) {
+          const emoji = tahta[s][baslangic];
+          let son = baslangic;
+          while (son + 1 < BOYUT && tahta[s][son + 1] === emoji) son++;
+          if (son - baslangic + 1 >= 3) {
+            for (let k = baslangic; k <= son; k++) isaretli[s][k] = true;
+          }
+          baslangic = son + 1;
+        }
+      }
+
+      // Dikey taramalar
+      for (let st = 0; st < BOYUT; st++) {
+        let baslangic = 0;
+        while (baslangic < BOYUT) {
+          const emoji = tahta[baslangic][st];
+          let son = baslangic;
+          while (son + 1 < BOYUT && tahta[son + 1][st] === emoji) son++;
+          if (son - baslangic + 1 >= 3) {
+            for (let k = baslangic; k <= son; k++) isaretli[k][st] = true;
+          }
+          baslangic = son + 1;
+        }
+      }
+
+      // İşaretli hücrelerin listesini döndür
+      const sonuc = [];
+      for (let s = 0; s < BOYUT; s++) {
+        for (let st = 0; st < BOYUT; st++) {
+          if (isaretli[s][st]) sonuc.push({ s, st, emoji: tahta[s][st] });
+        }
+      }
+      return sonuc;
+    }
+
+    // ==========================================================
+    // PATLAMA ZİNCİRİ: patla → yerçekimi → yenileri doğur → tekrar kontrol
+    // ==========================================================
+    async function patlamaZinciri() {
+      while (true) {
+        const eslesmeler = eslesmeleriBul();
+        if (eslesmeler.length === 0) return;
+
+        comboSayaci++;
+        if (comboSayaci >= 2) {
+          comboGoster(comboSayaci);
+        }
+
+        // 1) Patlama animasyonu
+        eslesmeler.forEach(({ s, st, emoji }) => {
+          const el = hucreEl(s, st);
+          if (el) el.classList.add('patliyor');
+          // Hedef tatlı toplandıysa say
+          if (emoji === HEDEF_TATLI) toplananHedef++;
+        });
+
+        // 2) Altın ekle (sayaç animasyonlu)
+        const kazanilan = eslesmeler.length * PUAN_BASINA_ALTIN * comboSayaci; // combo çarpanı
+        altinEkle(kazanilan);
+        hedefGuncelle();
+
+        await bekle(350); // patlama animasyonu bitene kadar
+
+        // 3) Patlayanları sil
+        eslesmeler.forEach(({ s, st }) => {
+          tahta[s][st] = null;
+        });
+
+        // 4) Yerçekimi: yukarıdakiler aşağı düşer, boş kalanlar yenilenir
+        yercekimi();
+
+        // 5) Yeniden çiz (yeni doğanlar için animasyon)
+        cizdir();
+        // Yeni doğan hücrelere "dogdu" efekti ekle
+        tahtaEl.querySelectorAll('.hucre').forEach(el => {
+          el.classList.add('dogdu');
+          setTimeout(() => el.classList.remove('dogdu'), 300);
+        });
+
+        await bekle(300);
+      }
+    }
+
+    function yercekimi() {
+      for (let st = 0; st < BOYUT; st++) {
+        // Aşağıdan yukarı tarayıp boşlukları kapa
+        let yazmaSatiri = BOYUT - 1;
+        for (let s = BOYUT - 1; s >= 0; s--) {
+          if (tahta[s][st] !== null) {
+            tahta[yazmaSatiri][st] = tahta[s][st];
+            if (yazmaSatiri !== s) tahta[s][st] = null;
+            yazmaSatiri--;
+          }
+        }
+        // Kalan boşlukları yeni tatlılarla doldur
+        for (let s = yazmaSatiri; s >= 0; s--) {
+          tahta[s][st] = TATLILAR[Math.floor(Math.random() * TATLILAR.length)];
+        }
+      }
+    }
+
+    // ==========================================================
+    // UI GÜNCELLEMELER
+    // ==========================================================
+    function altinEkle(miktar) {
+      altin += miktar;
+      altinEl.textContent = altin;
+      altinEl.classList.add('ziplama');
+      setTimeout(() => altinEl.classList.remove('ziplama'), 200);
+    }
+
+    function hedefGuncelle() {
+      if (toplananHedef >= HEDEF_SAYI) {
+        hedefMetniEl.textContent = '🎉 Bölüm tamamlandı!';
+        hedefMetniEl.style.color = '#2e7d32';
+      } else {
+        hedefMetniEl.textContent = `Hedef: ${toplananHedef} / ${HEDEF_SAYI} ${HEDEF_TATLI} topla`;
+      }
+    }
+
+    function comboGoster(sayi) {
+      const metinler = {
+        2: '✨ x2 GÜZEL!',
+        3: '🔥 x3 SÜPER!',
+        4: '⭐ x4 HARİKA!',
+        5: '💥 x5 EFSANE!'
+      };
+      comboPopup.textContent = metinler[sayi] || `🌟 x${sayi} İNANILMAZ!`;
+      comboPopup.classList.remove('goster');
+      void comboPopup.offsetWidth; // animasyonu yeniden tetikle
+      comboPopup.classList.add('goster');
+    }
+
+    // ==========================================================
+    // YARDIMCI
+    // ==========================================================
+    function bekle(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    // ==========================================================
+    // BAŞLAT
+    // ==========================================================
+    tahtaOlustur();
+    cizdir();
+    hedefGuncelle();
+  </script>
+</body>
+</html>
