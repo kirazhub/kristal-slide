@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>🍰 Pasta Şefi'nin Yükselişi</title>
+  <title>💎 Kristal Krallığı</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -25,18 +25,28 @@
     }
 
     /* Canlı, hareketli arka plan — 3 katmanlı radyal ışıklar */
+    html, body {
+      min-height: 100vh;
+      font-family: 'Fredoka', sans-serif;
+      color: #fff;
+      overflow: hidden;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Kristal krallığı arka planı — derin mavi-mor, büyülü ışıklar */
     body {
       background:
-        radial-gradient(circle at 20% 20%, rgba(255, 105, 180, 0.5) 0%, transparent 45%),
-        radial-gradient(circle at 80% 30%, rgba(138, 43, 226, 0.45) 0%, transparent 50%),
-        radial-gradient(circle at 50% 80%, rgba(255, 165, 0, 0.4) 0%, transparent 50%),
-        linear-gradient(135deg, #ff6ec7 0%, #a17ef5 35%, #6a5acd 70%, #ff69b4 100%);
+        radial-gradient(circle at 20% 20%, rgba(100, 180, 255, 0.35) 0%, transparent 45%),
+        radial-gradient(circle at 80% 30%, rgba(180, 100, 255, 0.4) 0%, transparent 50%),
+        radial-gradient(circle at 50% 90%, rgba(0, 200, 255, 0.3) 0%, transparent 50%),
+        linear-gradient(135deg, #1a1a4e 0%, #2d1b69 30%, #0f0f3d 60%, #1a0f3d 100%);
       background-size: 200% 200%;
-      animation: arkaplan-ak 18s ease infinite;
+      animation: arkaplan-ak 22s ease infinite;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 12px;
+      padding: 8px;
       min-height: 100vh;
       position: relative;
     }
@@ -67,29 +77,29 @@
     }
 
     /* ============================================
-       BAŞLIK — parlak, 3D
+       BAŞLIK — kristal parıltılı
        ============================================ */
     .baslik {
       font-family: 'Luckiest Guy', cursive;
-      font-size: clamp(32px, 7vw, 56px);
+      font-size: clamp(26px, 5.5vw, 44px);
       color: #fff;
       text-align: center;
-      margin: 10px 0 14px 0;
-      letter-spacing: 2px;
-      -webkit-text-stroke: 3px #c2185b;
+      margin: 6px 0 10px 0;
+      letter-spacing: 3px;
+      -webkit-text-stroke: 2px #4a2d8f;
       text-shadow:
-        0 0 20px rgba(255, 215, 0, 0.8),
-        3px 3px 0 #c2185b,
-        6px 6px 0 rgba(106, 90, 205, 0.6),
-        0 0 40px rgba(255, 105, 180, 0.9);
-      animation: baslik-nabiz 2s ease-in-out infinite;
+        0 0 25px rgba(100, 200, 255, 0.9),
+        2px 2px 0 #4a2d8f,
+        4px 4px 0 rgba(50, 30, 100, 0.6),
+        0 0 50px rgba(180, 100, 255, 1);
+      animation: baslik-nabiz 2.5s ease-in-out infinite;
       z-index: 5;
       position: relative;
     }
 
     @keyframes baslik-nabiz {
-      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.7)); }
-      50%      { transform: scale(1.03); filter: drop-shadow(0 0 35px rgba(255, 215, 0, 1)); }
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 25px rgba(100, 200, 255, 0.8)); }
+      50%      { transform: scale(1.03); filter: drop-shadow(0 0 45px rgba(180, 100, 255, 1)); }
     }
 
     /* ============================================
@@ -109,18 +119,18 @@
     }
 
     .altin-kutu, .hedef-kutu {
-      background: linear-gradient(145deg, #fff8e1 0%, #ffd54f 50%, #ff8f00 100%);
-      border-radius: 22px;
-      padding: 12px 22px;
+      background: linear-gradient(145deg, #fff 0%, #a0c4ff 50%, #5a6dff 100%);
+      border-radius: 18px;
+      padding: 8px 16px;
       font-weight: 700;
-      font-size: 19px;
-      color: #5d2f00;
-      border: 4px solid #fff;
+      font-size: 16px;
+      color: #1a1a4e;
+      border: 3px solid #fff;
       box-shadow:
-        0 0 0 3px #ffa000,
-        0 8px 25px rgba(255, 143, 0, 0.5),
+        0 0 0 2px #5a6dff,
+        0 6px 20px rgba(90, 109, 255, 0.6),
         inset 0 2px 6px rgba(255, 255, 255, 0.9),
-        inset 0 -3px 6px rgba(180, 100, 0, 0.3);
+        inset 0 -3px 6px rgba(50, 70, 180, 0.3);
       position: relative;
       overflow: hidden;
     }
@@ -142,11 +152,11 @@
     }
 
     .altin-kutu {
-      color: #8b4513;
+      color: #1a1a4e;
       display: flex;
       align-items: center;
-      gap: 10px;
-      min-width: 140px;
+      gap: 8px;
+      min-width: 120px;
       z-index: 1;
     }
 
@@ -169,16 +179,16 @@
     }
 
     .hedef-kutu {
-      background: linear-gradient(145deg, #fff 0%, #f8bbd0 50%, #e91e63 100%);
-      color: #880e4f;
+      background: linear-gradient(145deg, #fff 0%, #e0b0ff 50%, #9b4dff 100%);
+      color: #3d1f7a;
       flex: 1;
-      min-width: 210px;
+      min-width: 180px;
       text-align: center;
       box-shadow:
-        0 0 0 3px #c2185b,
-        0 8px 25px rgba(233, 30, 99, 0.5),
+        0 0 0 2px #9b4dff,
+        0 6px 20px rgba(155, 77, 255, 0.6),
         inset 0 2px 6px rgba(255, 255, 255, 0.9),
-        inset 0 -3px 6px rgba(136, 14, 79, 0.3);
+        inset 0 -3px 6px rgba(60, 30, 120, 0.3);
     }
 
     .hedef-kutu .bolum {
@@ -195,35 +205,37 @@
        ============================================ */
     .tahta-kapsa {
       background:
-        radial-gradient(ellipse at top, #ffe082 0%, #ffb300 50%, #e65100 100%);
-      border-radius: 28px;
-      padding: 14px;
+        radial-gradient(ellipse at top, #c0c0ff 0%, #8e8ee8 50%, #4a4a9e 100%);
+      border-radius: 20px;
+      padding: 8px;
       box-shadow:
-        0 0 0 6px #6a1b9a,
-        0 0 0 10px #ffc107,
-        0 20px 60px rgba(106, 27, 154, 0.7),
-        inset 0 4px 10px rgba(255, 255, 255, 0.5),
-        inset 0 -6px 12px rgba(180, 60, 0, 0.4);
+        0 0 0 3px #6a5acd,
+        0 0 0 6px #c0c0ff,
+        0 0 0 8px #4a2d8f,
+        0 15px 50px rgba(100, 100, 255, 0.7),
+        inset 0 3px 8px rgba(255, 255, 255, 0.6),
+        inset 0 -5px 10px rgba(50, 30, 100, 0.4);
       position: relative;
       z-index: 5;
     }
 
     .tahta-ic {
       background:
-        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
-        linear-gradient(135deg, #4a148c 0%, #6a1b9a 50%, #311b92 100%);
-      border-radius: 18px;
-      padding: 8px;
-      box-shadow: inset 0 4px 12px rgba(0,0,0,0.5);
+        radial-gradient(circle at 30% 30%, rgba(150, 200, 255, 0.2) 0%, transparent 50%),
+        linear-gradient(135deg, #0f0f3d 0%, #1a0f5e 50%, #0a0a2a 100%);
+      border-radius: 14px;
+      padding: 4px;
+      box-shadow: inset 0 4px 12px rgba(0,0,0,0.7);
     }
 
     .tahta {
       display: grid;
       grid-template-columns: repeat(8, 1fr);
       grid-template-rows: repeat(8, 1fr);
-      gap: 4px;
-      width: min(86vw, 460px);
-      height: min(86vw, 460px);
+      gap: 2px;
+      /* Ekranı neredeyse tamamen kaplasın */
+      width: min(96vw, 640px);
+      height: min(96vw, 640px);
       position: relative;
     }
 
@@ -242,13 +254,19 @@
       background: transparent;
     }
 
-    /* Hücrenin altına, her tatlıya özgü renkli ışık halkası */
-    .hucre[data-tatli="🍰"] { filter: drop-shadow(0 0 10px rgba(255, 105, 180, 0.7)) drop-shadow(0 4px 6px rgba(0,0,0,0.4)); }
-    .hucre[data-tatli="🍪"] { filter: drop-shadow(0 0 10px rgba(200, 130, 50, 0.7)) drop-shadow(0 4px 6px rgba(0,0,0,0.4)); }
-    .hucre[data-tatli="🍓"] { filter: drop-shadow(0 0 10px rgba(255, 60, 60, 0.7)) drop-shadow(0 4px 6px rgba(0,0,0,0.4)); }
-    .hucre[data-tatli="🍫"] { filter: drop-shadow(0 0 10px rgba(120, 70, 40, 0.7)) drop-shadow(0 4px 6px rgba(0,0,0,0.4)); }
-    .hucre[data-tatli="🍦"] { filter: drop-shadow(0 0 10px rgba(100, 180, 255, 0.7)) drop-shadow(0 4px 6px rgba(0,0,0,0.4)); }
-    .hucre[data-tatli="🍭"] { filter: drop-shadow(0 0 10px rgba(200, 100, 255, 0.7)) drop-shadow(0 4px 6px rgba(0,0,0,0.4)); }
+    /* Her kristal için kendi rengine özgü parıltı halkası */
+    /* 🍰 = Elmas (beyaz/gümüş) */
+    .hucre[data-tatli="🍰"] { filter: drop-shadow(0 0 14px rgba(220, 240, 255, 0.9)) drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
+    /* 🍪 = Yakut (kırmızı) */
+    .hucre[data-tatli="🍪"] { filter: drop-shadow(0 0 14px rgba(255, 40, 80, 0.9)) drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
+    /* 🍓 = Zümrüt (yeşil) */
+    .hucre[data-tatli="🍓"] { filter: drop-shadow(0 0 14px rgba(60, 255, 140, 0.9)) drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
+    /* 🍫 = Safir (mavi) */
+    .hucre[data-tatli="🍫"] { filter: drop-shadow(0 0 14px rgba(60, 140, 255, 0.9)) drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
+    /* 🍦 = Ametist (mor) */
+    .hucre[data-tatli="🍦"] { filter: drop-shadow(0 0 14px rgba(200, 80, 255, 0.9)) drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
+    /* 🍭 = Amber (turuncu/altın) */
+    .hucre[data-tatli="🍭"] { filter: drop-shadow(0 0 14px rgba(255, 180, 40, 0.9)) drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
 
     /* Tatlı görselleri — artık şeffaf arka plan, hücreye rahat sığar */
     .hucre img, .hucre svg {
@@ -441,16 +459,16 @@
   <!-- Arka plan parçacıkları (JS ile doldurulacak) -->
   <div id="parcaciklarKatmani"></div>
 
-  <h1 class="baslik">🍰 Pasta Şefi 🍰</h1>
+  <h1 class="baslik">💎 KRİSTAL KRALLIĞI 💎</h1>
 
   <div class="ust-cubuk">
     <div class="altin-kutu">
-      <span class="emoji-buyuk">🪙</span>
+      <span class="emoji-buyuk">💰</span>
       <span class="altin-sayi" id="altinSayi">0</span>
     </div>
     <div class="hedef-kutu">
-      <span class="bolum">✨ Bölüm 1 ✨</span>
-      <span id="hedefMetni">Hedef: 30 🍰 topla</span>
+      <span class="bolum">✨ BÖLÜM 1 ✨</span>
+      <span id="hedefMetni">Hedef: 30 elmas topla</span>
     </div>
   </div>
 
@@ -466,7 +484,7 @@
     <button class="guc-btn"><span class="emoji">💣</span> Bomba <span class="sayi">1</span></button>
   </div>
 
-  <p class="not">💡 Komşu iki tatlıyı değiştir, 3 veya daha fazlasını yan yana getir!</p>
+  <p class="not">💎 Komşu iki kristali değiştir, 3 veya daha fazlasını yan yana getir!</p>
 
   <div class="combo-popup" id="comboPopup"></div>
 
@@ -479,7 +497,17 @@
     // ==========================================================
 
     const BOYUT = 8;
+    // Eski emoji anahtarları korundu — her biri artık bir kristal temsil ediyor
+    // 🍰 = Elmas, 🍪 = Yakut, 🍓 = Zümrüt, 🍫 = Safir, 🍦 = Ametist, 🍭 = Amber
     const TATLILAR = ['🍰', '🍪', '🍓', '🍫', '🍦', '🍭'];
+    const KRISTAL_ADLARI = {
+      '🍰': 'elmas',
+      '🍪': 'yakut',
+      '🍓': 'zümrüt',
+      '🍫': 'safir',
+      '🍦': 'ametist',
+      '🍭': 'amber'
+    };
     const HEDEF_TATLI = '🍰';
     const HEDEF_SAYI = 30;
     const PUAN_BASINA_ALTIN = 10;
@@ -720,14 +748,14 @@
     // Patlayan hücreden 8 yönde parçacık uç (renkli ışıltılar + yıldızlar)
     function patlamaParcaciklari(el, emoji) {
       const rect = el.getBoundingClientRect();
-      // Tatlıya göre parçacık rengi
+      // Her kristalın kendi rengi
       const renkler = {
-        '🍰': ['#ff69b4', '#ff1493', '#ffb6c1'],
-        '🍪': ['#d4a574', '#8b4513', '#ffc107'],
-        '🍓': ['#ff1744', '#c62828', '#ff8a80'],
-        '🍫': ['#5d4037', '#3e2723', '#8d6e63'],
-        '🍦': ['#81d4fa', '#0288d1', '#fff'],
-        '🍭': ['#ba68c8', '#6a1b9a', '#e1bee7']
+        '🍰': ['#ffffff', '#e3f2fd', '#b3e5fc'],     // elmas — beyaz/gümüş
+        '🍪': ['#ff1744', '#d50000', '#ff5252'],     // yakut — kırmızı
+        '🍓': ['#00e676', '#00c853', '#69f0ae'],     // zümrüt — yeşil
+        '🍫': ['#448aff', '#2962ff', '#82b1ff'],     // safir — mavi
+        '🍦': ['#e040fb', '#aa00ff', '#ea80fc'],     // ametist — mor
+        '🍭': ['#ff9100', '#ffab00', '#ffd54f']      // amber — turuncu/altın
       };
       const paletRenkleri = renkler[emoji] || ['#fff'];
       const semboller = ['✨', '⭐', '💫', '🌟'];
@@ -785,7 +813,8 @@
       if (toplananHedef >= HEDEF_SAYI) {
         hedefMetniEl.textContent = '🎉 BÖLÜM TAMAMLANDI! 🎉';
       } else {
-        hedefMetniEl.textContent = `Hedef: ${toplananHedef} / ${HEDEF_SAYI} ${HEDEF_TATLI} topla`;
+        const ad = KRISTAL_ADLARI[HEDEF_TATLI] || 'kristal';
+        hedefMetniEl.textContent = `${toplananHedef} / ${HEDEF_SAYI} ${ad} topla`;
       }
     }
 

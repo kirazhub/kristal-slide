@@ -63,32 +63,34 @@ const CIKTI_KLASOR = join(PROJE_KOK, 'public', 'assets');
 if (!existsSync(CIKTI_KLASOR)) mkdirSync(CIKTI_KLASOR, { recursive: true });
 
 // ==========================================================
-// TATLI PROMPT'LARI
+// KRISTAL (GEM) PROMPT'LARI
+// ==========================================================
+// Her kristal: kare şekil, 3D render, cam/mücevher görünümü, farklı renk
 // ==========================================================
 const TATLILAR = {
-  kek: {
+  kek: { // Artık elmas — ama dosya adını "kek" bıraktık ki kod uyumlu kalsın
     dosya: 'kek.png',
-    prompt: `cute 3D rendered pink strawberry cake on pure white background, glossy pink frosting with whipped cream swirls, three bright red strawberries on top with green leaves, single birthday candle with small yellow flame, chocolate sponge cake layer visible, kawaii style, mobile match-3 game asset, candy crush style, vibrant saturated colors, shiny glossy highlights, soft cartoon style, centered composition, solid pure white background, clean product photo, no shadows on ground, highly detailed`
+    prompt: `3D rendered cube-shaped diamond crystal gem on pure white background, clear bright white diamond with rainbow light refraction inside, perfect cube shape with sharp edges and beveled corners, faceted surfaces catching light, brilliant sparkle and reflections, glowing white highlights, mobile match-3 game asset, candy crush saga style gem, jewel game icon, ultra glossy glass material, vibrant white and silver tones with rainbow prism colors, centered composition, solid pure white background, no shadows, highly detailed, 8k render`
   },
-  kurabiye: {
+  kurabiye: { // Yakut (kırmızı)
     dosya: 'kurabiye.png',
-    prompt: `cute 3D rendered chocolate chip cookie on pure white background, golden brown cookie dough with visible dark chocolate chunks, glossy shiny surface, slightly irregular bumpy round edges, kawaii cartoon style, mobile match-3 game asset, candy crush style, warm saturated colors, soft studio lighting, centered composition, solid pure white background, no shadows on ground, highly detailed`
+    prompt: `3D rendered cube-shaped ruby crystal gem on pure white background, deep rich red ruby, perfect cube shape with sharp edges and beveled corners, faceted surfaces, glowing inner fire light, bright red highlights and sparkle, mobile match-3 game asset, candy crush saga style gem, jewel game icon, ultra glossy glass material, vibrant deep red color with pink highlights, centered composition, solid pure white background, no shadows, highly detailed, 8k render`
   },
-  cilek: {
+  cilek: { // Zümrüt (yeşil)
     dosya: 'cilek.png',
-    prompt: `cute 3D rendered red strawberry on pure white background, heart shape, glossy shiny red surface with highlights, tiny yellow seeds visible on skin, fresh green leaves on top with small stem, kawaii cartoon style, mobile match-3 game asset, candy crush style, vibrant red color, juicy appearance, centered composition, solid pure white background, no shadows on ground, highly detailed`
+    prompt: `3D rendered cube-shaped emerald crystal gem on pure white background, bright vivid green emerald, perfect cube shape with sharp edges and beveled corners, faceted translucent surfaces, glowing inner green light, bright highlights and sparkle, mobile match-3 game asset, candy crush saga style gem, jewel game icon, ultra glossy glass material, vibrant emerald green color with lime highlights, centered composition, solid pure white background, no shadows, highly detailed, 8k render`
   },
-  cikolata: {
+  cikolata: { // Safir (mavi)
     dosya: 'cikolata.png',
-    prompt: `cute 3D rendered chocolate bar on pure white background, dark milk chocolate squares in 4x4 grid pattern, glossy shiny surface, slight 3D perspective tilted view, kawaii cartoon style, mobile match-3 game asset, candy crush style, rich brown colors, melty appearance with highlights, centered composition, solid pure white background, no shadows on ground, highly detailed`
+    prompt: `3D rendered cube-shaped sapphire crystal gem on pure white background, deep royal blue sapphire, perfect cube shape with sharp edges and beveled corners, faceted surfaces, glowing inner blue light, bright cyan highlights and sparkle, mobile match-3 game asset, candy crush saga style gem, jewel game icon, ultra glossy glass material, vibrant deep blue color with light blue highlights, centered composition, solid pure white background, no shadows, highly detailed, 8k render`
   },
-  dondurma: {
+  dondurma: { // Ametist (mor)
     dosya: 'dondurma.png',
-    prompt: `cute 3D rendered ice cream cone on pure white background, two scoops of ice cream vanilla and blue raspberry flavors, waffle cone with crosshatch texture, colorful rainbow sprinkles on top, red cherry on top with small green leaf, pink strawberry syrup dripping down, kawaii cartoon style, mobile match-3 game asset, candy crush style, vibrant colors, glossy shiny highlights, centered composition, solid pure white background, no shadows on ground, highly detailed`
+    prompt: `3D rendered cube-shaped amethyst crystal gem on pure white background, rich purple amethyst, perfect cube shape with sharp edges and beveled corners, faceted translucent surfaces, glowing inner violet light, bright pink-purple highlights and sparkle, mobile match-3 game asset, candy crush saga style gem, jewel game icon, ultra glossy glass material, vibrant purple color with magenta highlights, centered composition, solid pure white background, no shadows, highly detailed, 8k render`
   },
-  lolipop: {
+  lolipop: { // Amber / Topaz (turuncu/sarı)
     dosya: 'lolipop.png',
-    prompt: `cute 3D rendered purple swirl lollipop candy on pure white background, round disc shape, white spiral pattern swirling from center, glossy shiny surface with bright highlights, white plastic stick, kawaii cartoon style, mobile match-3 game asset, candy crush style, vibrant purple and white colors, shiny candy appearance, centered composition, solid pure white background, no shadows on ground, highly detailed`
+    prompt: `3D rendered cube-shaped amber topaz crystal gem on pure white background, bright golden orange amber, perfect cube shape with sharp edges and beveled corners, faceted surfaces, glowing inner warm light, bright yellow-gold highlights and sparkle, mobile match-3 game asset, candy crush saga style gem, jewel game icon, ultra glossy glass material, vibrant orange and gold color with yellow highlights, centered composition, solid pure white background, no shadows, highly detailed, 8k render`
   }
 };
 
