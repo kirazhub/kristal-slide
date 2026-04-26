@@ -173,9 +173,18 @@ async function dosyayiIndir(url, hedefYol) {
   const cevap = await fetch(url);
   if (!cevap.ok) throw new Error(`İndirme başarısız: ${cevap.status}`);
   const buffer = Buffer.from(await cevap.arrayBuffer());
-  writeFileSync(hedefYol, buffer);
+
+  // Leonardo aslında JPEG döndürüyor — sips ile PNG'ye çevir
+  const gecici = hedefYol + '.tmp.bin';
+  writeFileSync(gecici, buffer);
+
+  const { execSync } = await import('node:child_process');
+  // sips ile format çevirimi (macOS yerleşik araç)
+  execSync(`sips -s format png "${gecici}" --out "${hedefYol}"`, { stdio: 'ignore' });
+  execSync(`rm -f "${gecici}"`);
+
   const boyutKB = (buffer.length / 1024).toFixed(1);
-  console.log(`   ✅ kaydedildi: ${hedefYol} (${boyutKB} KB)`);
+  console.log(`   ✅ kaydedildi: ${hedefYol} (PNG, ${boyutKB} KB kaynaktan)`);
 }
 
 // ==========================================================
