@@ -5,10 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>🍰 Pasta Şefi'nin Yükselişi</title>
 
-  <!-- Google Fonts: Fredoka (yuvarlak, ne'şeli bir yazı tipi) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Luckiest+Guy&display=swap" rel="stylesheet" />
 
   <style>
     /* ============================================
@@ -19,37 +18,82 @@
     html, body {
       min-height: 100vh;
       font-family: 'Fredoka', sans-serif;
-      /* Pastane temalı pastel gradyan arka plan */
-      background: linear-gradient(135deg, #ffe0ec 0%, #fff3dd 50%, #ffd4e5 100%);
-      color: #5c2b5a;
-      overflow-x: hidden;
+      color: #fff;
+      overflow: hidden;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
     }
 
+    /* Canlı, hareketli arka plan — 3 katmanlı radyal ışıklar */
     body {
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255, 105, 180, 0.5) 0%, transparent 45%),
+        radial-gradient(circle at 80% 30%, rgba(138, 43, 226, 0.45) 0%, transparent 50%),
+        radial-gradient(circle at 50% 80%, rgba(255, 165, 0, 0.4) 0%, transparent 50%),
+        linear-gradient(135deg, #ff6ec7 0%, #a17ef5 35%, #6a5acd 70%, #ff69b4 100%);
+      background-size: 200% 200%;
+      animation: arkaplan-ak 18s ease infinite;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 16px;
-      padding-bottom: 32px;
+      padding: 12px;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    @keyframes arkaplan-ak {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Yağan parçacıklar katmanı (kalpler, yıldızlar) */
+    .parcacik {
+      position: fixed;
+      top: -40px;
+      font-size: 24px;
+      opacity: 0.7;
+      pointer-events: none;
+      z-index: 0;
+      animation: yagmur linear infinite;
+      text-shadow: 0 0 10px currentColor;
+    }
+
+    @keyframes yagmur {
+      0%   { transform: translateY(-40px) rotate(0deg);   opacity: 0; }
+      10%  { opacity: 0.8; }
+      90%  { opacity: 0.8; }
+      100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
     }
 
     /* ============================================
-       ÜST BAŞLIK
+       BAŞLIK — parlak, 3D
        ============================================ */
     .baslik {
-      font-size: clamp(28px, 6vw, 44px);
-      font-weight: 700;
-      color: #c2185b;
+      font-family: 'Luckiest Guy', cursive;
+      font-size: clamp(32px, 7vw, 56px);
+      color: #fff;
       text-align: center;
-      margin: 8px 0 16px 0;
-      text-shadow: 2px 2px 0 #fff, 4px 4px 12px rgba(194, 24, 91, 0.2);
-      letter-spacing: 0.5px;
+      margin: 10px 0 14px 0;
+      letter-spacing: 2px;
+      -webkit-text-stroke: 3px #c2185b;
+      text-shadow:
+        0 0 20px rgba(255, 215, 0, 0.8),
+        3px 3px 0 #c2185b,
+        6px 6px 0 rgba(106, 90, 205, 0.6),
+        0 0 40px rgba(255, 105, 180, 0.9);
+      animation: baslik-nabiz 2s ease-in-out infinite;
+      z-index: 5;
+      position: relative;
+    }
+
+    @keyframes baslik-nabiz {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.7)); }
+      50%      { transform: scale(1.03); filter: drop-shadow(0 0 35px rgba(255, 215, 0, 1)); }
     }
 
     /* ============================================
-       ÜST BİLGİ ÇUBUĞU (altın + hedef)
+       ÜST BİLGİ ÇUBUĞU — ışıldayan kutular
        ============================================ */
     .ust-cubuk {
       display: flex;
@@ -57,63 +101,120 @@
       align-items: center;
       gap: 12px;
       width: 100%;
-      max-width: 560px;
-      margin-bottom: 18px;
+      max-width: 580px;
+      margin-bottom: 14px;
       flex-wrap: wrap;
+      z-index: 5;
+      position: relative;
     }
 
     .altin-kutu, .hedef-kutu {
-      background: white;
-      border-radius: 18px;
-      padding: 12px 20px;
-      box-shadow: 0 4px 14px rgba(194, 24, 91, 0.15);
-      font-weight: 600;
-      font-size: 18px;
-      border: 3px solid #fff3dd;
+      background: linear-gradient(145deg, #fff8e1 0%, #ffd54f 50%, #ff8f00 100%);
+      border-radius: 22px;
+      padding: 12px 22px;
+      font-weight: 700;
+      font-size: 19px;
+      color: #5d2f00;
+      border: 4px solid #fff;
+      box-shadow:
+        0 0 0 3px #ffa000,
+        0 8px 25px rgba(255, 143, 0, 0.5),
+        inset 0 2px 6px rgba(255, 255, 255, 0.9),
+        inset 0 -3px 6px rgba(180, 100, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Kutuların üstüne parıltı efekti */
+    .altin-kutu::before, .hedef-kutu::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.6) 50%, transparent 60%);
+      animation: parilti 3s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes parilti {
+      0%   { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
     }
 
     .altin-kutu {
-      color: #d4a017;
+      color: #8b4513;
       display: flex;
       align-items: center;
-      gap: 8px;
-      min-width: 130px;
+      gap: 10px;
+      min-width: 140px;
+      z-index: 1;
+    }
+
+    .altin-kutu .emoji-buyuk {
+      font-size: 28px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
     }
 
     .altin-sayi {
       display: inline-block;
       transition: transform 0.2s ease;
       font-variant-numeric: tabular-nums;
+      font-size: 22px;
+      text-shadow: 1px 1px 0 #fff;
     }
 
     .altin-sayi.ziplama {
-      transform: scale(1.4);
-      color: #ff6b35;
+      transform: scale(1.5) rotate(-8deg);
+      color: #e65100;
     }
 
     .hedef-kutu {
-      color: #5c2b5a;
+      background: linear-gradient(145deg, #fff 0%, #f8bbd0 50%, #e91e63 100%);
+      color: #880e4f;
       flex: 1;
-      min-width: 200px;
+      min-width: 210px;
       text-align: center;
+      box-shadow:
+        0 0 0 3px #c2185b,
+        0 8px 25px rgba(233, 30, 99, 0.5),
+        inset 0 2px 6px rgba(255, 255, 255, 0.9),
+        inset 0 -3px 6px rgba(136, 14, 79, 0.3);
     }
 
     .hedef-kutu .bolum {
       font-size: 13px;
-      opacity: 0.7;
+      opacity: 0.85;
       display: block;
       margin-bottom: 2px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
     }
 
     /* ============================================
-       OYUN TAHTASI
+       OYUN TAHTASI — 3D altın çerçeveli
        ============================================ */
     .tahta-kapsa {
-      background: white;
-      border-radius: 24px;
-      padding: 12px;
-      box-shadow: 0 10px 30px rgba(194, 24, 91, 0.2);
-      border: 4px solid #fff;
+      background:
+        radial-gradient(ellipse at top, #ffe082 0%, #ffb300 50%, #e65100 100%);
+      border-radius: 28px;
+      padding: 14px;
+      box-shadow:
+        0 0 0 6px #6a1b9a,
+        0 0 0 10px #ffc107,
+        0 20px 60px rgba(106, 27, 154, 0.7),
+        inset 0 4px 10px rgba(255, 255, 255, 0.5),
+        inset 0 -6px 12px rgba(180, 60, 0, 0.4);
+      position: relative;
+      z-index: 5;
+    }
+
+    .tahta-ic {
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
+        linear-gradient(135deg, #4a148c 0%, #6a1b9a 50%, #311b92 100%);
+      border-radius: 18px;
+      padding: 8px;
+      box-shadow: inset 0 4px 12px rgba(0,0,0,0.5);
     }
 
     .tahta {
@@ -121,81 +222,153 @@
       grid-template-columns: repeat(8, 1fr);
       grid-template-rows: repeat(8, 1fr);
       gap: 4px;
-      /* Mobilde ekrana sığması için min fonksiyonu */
-      width: min(88vw, 480px);
-      height: min(88vw, 480px);
-    }
-
-    .hucre {
-      background: linear-gradient(135deg, #fff5f9 0%, #ffe0ec 100%);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: clamp(22px, 5.5vw, 40px);
-      cursor: pointer;
-      transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.25s ease;
-      box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.8), 0 1px 2px rgba(0,0,0,0.04);
+      width: min(86vw, 460px);
+      height: min(86vw, 460px);
       position: relative;
     }
 
-    .hucre:hover {
-      transform: scale(1.08);
-      box-shadow: 0 4px 10px rgba(194, 24, 91, 0.25);
+    /* ============================================
+       HÜCRE — 3D parlak şekerleme
+       ============================================ */
+    .hucre {
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(26px, 6vw, 44px);
+      cursor: pointer;
+      transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.18s ease, filter 0.15s ease;
+      position: relative;
+      overflow: visible;
+      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
+    }
+
+    /* Her tatlı için 3D arka plan rengi (JS tarafından data-tatli ile eşlenir) */
+    .hucre[data-tatli="🍰"] {
+      background: radial-gradient(circle at 30% 25%, #fff 0%, #ffb3d9 40%, #ff1493 90%);
+      box-shadow: 0 0 14px rgba(255, 20, 147, 0.7), inset 0 -4px 8px rgba(180, 0, 100, 0.5), inset 0 3px 6px rgba(255, 255, 255, 0.8);
+    }
+    .hucre[data-tatli="🍪"] {
+      background: radial-gradient(circle at 30% 25%, #fff3cd 0%, #d4a574 40%, #8b4513 90%);
+      box-shadow: 0 0 14px rgba(139, 69, 19, 0.7), inset 0 -4px 8px rgba(80, 40, 0, 0.5), inset 0 3px 6px rgba(255, 255, 255, 0.7);
+    }
+    .hucre[data-tatli="🍓"] {
+      background: radial-gradient(circle at 30% 25%, #fff 0%, #ff6b6b 40%, #c62828 90%);
+      box-shadow: 0 0 14px rgba(198, 40, 40, 0.7), inset 0 -4px 8px rgba(130, 0, 0, 0.5), inset 0 3px 6px rgba(255, 255, 255, 0.8);
+    }
+    .hucre[data-tatli="🍫"] {
+      background: radial-gradient(circle at 30% 25%, #d7ccc8 0%, #8d6e63 40%, #3e2723 90%);
+      box-shadow: 0 0 14px rgba(62, 39, 35, 0.7), inset 0 -4px 8px rgba(30, 15, 10, 0.6), inset 0 3px 6px rgba(255, 255, 255, 0.6);
+    }
+    .hucre[data-tatli="🍦"] {
+      background: radial-gradient(circle at 30% 25%, #fff 0%, #b3e5fc 40%, #0288d1 90%);
+      box-shadow: 0 0 14px rgba(2, 136, 209, 0.7), inset 0 -4px 8px rgba(0, 80, 140, 0.5), inset 0 3px 6px rgba(255, 255, 255, 0.9);
+    }
+    .hucre[data-tatli="🍭"] {
+      background: radial-gradient(circle at 30% 25%, #fff 0%, #ce93d8 40%, #6a1b9a 90%);
+      box-shadow: 0 0 14px rgba(106, 27, 154, 0.7), inset 0 -4px 8px rgba(50, 0, 80, 0.5), inset 0 3px 6px rgba(255, 255, 255, 0.8);
+    }
+
+    /* Cilalı ışık efekti — her hücrenin üstünde */
+    .hucre::before {
+      content: '';
+      position: absolute;
+      top: 8%;
+      left: 15%;
+      width: 40%;
+      height: 30%;
+      background: radial-gradient(ellipse, rgba(255, 255, 255, 0.85) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hucre > span {
+      position: relative;
       z-index: 2;
+      filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
+      transition: transform 0.2s ease;
     }
 
-    .hucre:active {
-      transform: scale(0.96);
-    }
-
-    /* Seçili hücre — parlak bir halka */
-    .hucre.secili {
-      transform: scale(1.15);
-      box-shadow: 0 0 0 3px #ff6b35, 0 6px 16px rgba(255, 107, 53, 0.4);
+    .hucre:hover {
+      transform: scale(1.15) translateY(-3px);
+      filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.5)) brightness(1.15);
       z-index: 3;
-      animation: nabiz 0.8s ease-in-out infinite;
     }
 
-    @keyframes nabiz {
-      0%, 100% { box-shadow: 0 0 0 3px #ff6b35, 0 6px 16px rgba(255, 107, 53, 0.4); }
-      50%      { box-shadow: 0 0 0 5px #ffa45b, 0 8px 20px rgba(255, 107, 53, 0.6); }
+    .hucre:hover > span {
+      transform: rotate(-5deg) scale(1.05);
     }
 
-    /* Patlama animasyonu */
+    .hucre:active { transform: scale(0.92); }
+
+    /* Seçili hücre — pulsing altın halka */
+    .hucre.secili {
+      transform: scale(1.2);
+      filter: drop-shadow(0 0 18px #ffd700) brightness(1.25);
+      z-index: 4;
+      animation: secili-nabiz 0.7s ease-in-out infinite;
+    }
+
+    @keyframes secili-nabiz {
+      0%, 100% { box-shadow: 0 0 0 4px #ffd700, 0 0 30px rgba(255, 215, 0, 0.9); }
+      50%      { box-shadow: 0 0 0 6px #ffeb3b, 0 0 45px rgba(255, 235, 59, 1); }
+    }
+
+    /* Patlama — ışık patlaması + parçalara ayrılma */
     .hucre.patliyor {
-      animation: patla 0.35s ease-out forwards;
+      animation: patla 0.45s cubic-bezier(0.5, 0, 0.75, 0.2) forwards;
       pointer-events: none;
     }
 
     @keyframes patla {
-      0%   { transform: scale(1);   opacity: 1; }
-      40%  { transform: scale(1.5); opacity: 0.9; filter: brightness(1.4); }
-      100% { transform: scale(0);   opacity: 0; }
+      0%   { transform: scale(1);   opacity: 1; filter: brightness(1); }
+      30%  { transform: scale(1.5); opacity: 1; filter: brightness(2.5) saturate(1.5); box-shadow: 0 0 40px #fff; }
+      100% { transform: scale(0) rotate(180deg); opacity: 0; filter: brightness(4); }
     }
 
-    /* Yeni doğan hücre — yukarıdan düşüyormuş gibi */
+    /* Yeni doğan hücre — yumuşak düşüş */
     .hucre.dogdu {
-      animation: dus 0.3s ease-out;
+      animation: dus 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     @keyframes dus {
-      from { transform: translateY(-30px); opacity: 0; }
-      to   { transform: translateY(0); opacity: 1; }
+      0%   { transform: translateY(-50px) scale(0.3); opacity: 0; }
+      60%  { transform: translateY(8px) scale(1.1);   opacity: 1; }
+      100% { transform: translateY(0) scale(1);        opacity: 1; }
+    }
+
+    /* Patlama parçacıkları (JS ile oluşturulur) */
+    .patlama-parcacik {
+      position: absolute;
+      font-size: 14px;
+      pointer-events: none;
+      z-index: 20;
+      animation: parcacik-ucus 0.8s ease-out forwards;
+    }
+
+    @keyframes parcacik-ucus {
+      0%   { transform: translate(0, 0) scale(1)   rotate(0deg);   opacity: 1; }
+      100% { transform: translate(var(--dx), var(--dy)) scale(0) rotate(360deg); opacity: 0; }
     }
 
     /* ============================================
-       COMBO POPUP
+       COMBO POPUP — büyük, parlayan
        ============================================ */
     .combo-popup {
       position: fixed;
-      top: 40%;
+      top: 45%;
       left: 50%;
       transform: translate(-50%, -50%) scale(0.5);
-      font-size: clamp(32px, 8vw, 64px);
-      font-weight: 700;
-      color: #ff6b35;
-      text-shadow: 3px 3px 0 #fff, 6px 6px 20px rgba(255, 107, 53, 0.5);
+      font-family: 'Luckiest Guy', cursive;
+      font-size: clamp(40px, 10vw, 80px);
+      letter-spacing: 2px;
+      color: #ffd700;
+      -webkit-text-stroke: 3px #c2185b;
+      text-shadow:
+        0 0 30px #ff1493,
+        4px 4px 0 #6a1b9a,
+        0 0 60px #ffd700;
       pointer-events: none;
       opacity: 0;
       z-index: 100;
@@ -203,143 +376,174 @@
     }
 
     .combo-popup.goster {
-      animation: combo-anim 1s ease-out forwards;
+      animation: combo-anim 1.2s ease-out forwards;
     }
 
     @keyframes combo-anim {
-      0%   { transform: translate(-50%, -50%) scale(0.3) rotate(-8deg); opacity: 0; }
-      30%  { transform: translate(-50%, -50%) scale(1.2) rotate(4deg);  opacity: 1; }
-      60%  { transform: translate(-50%, -50%) scale(1.0) rotate(-2deg); opacity: 1; }
-      100% { transform: translate(-50%, -80%) scale(0.9); opacity: 0; }
+      0%   { transform: translate(-50%, -50%) scale(0.2) rotate(-15deg); opacity: 0; }
+      25%  { transform: translate(-50%, -50%) scale(1.5) rotate(8deg);   opacity: 1; }
+      55%  { transform: translate(-50%, -50%) scale(1.0) rotate(-3deg);  opacity: 1; }
+      100% { transform: translate(-50%, -120%) scale(0.8); opacity: 0; }
     }
 
     /* ============================================
-       ALT GÜÇLER ALANI
+       ALT GÜÇLER — parlak düğmeler
        ============================================ */
     .gucler {
       display: flex;
-      gap: 12px;
-      margin-top: 20px;
+      gap: 10px;
+      margin-top: 16px;
       justify-content: center;
       flex-wrap: wrap;
+      z-index: 5;
+      position: relative;
     }
 
     .guc-btn {
-      background: white;
-      border: 3px solid #fff3dd;
-      border-radius: 16px;
+      background: linear-gradient(145deg, #fff 0%, #b39ddb 50%, #7e57c2 100%);
+      border: 4px solid #fff;
+      border-radius: 18px;
       padding: 10px 18px;
       font-family: inherit;
-      font-size: 16px;
-      font-weight: 600;
-      color: #5c2b5a;
+      font-size: 15px;
+      font-weight: 700;
+      color: #4a148c;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 8px;
-      box-shadow: 0 4px 12px rgba(194, 24, 91, 0.12);
+      box-shadow:
+        0 0 0 3px #6a1b9a,
+        0 6px 16px rgba(106, 27, 154, 0.5),
+        inset 0 2px 4px rgba(255, 255, 255, 0.8);
       transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
 
     .guc-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(194, 24, 91, 0.2);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow:
+        0 0 0 3px #6a1b9a,
+        0 10px 22px rgba(106, 27, 154, 0.7),
+        inset 0 2px 4px rgba(255, 255, 255, 0.8);
     }
 
-    .guc-btn:active {
-      transform: translateY(0);
-    }
+    .guc-btn:active { transform: translateY(0) scale(0.97); }
 
     .guc-btn .emoji {
       font-size: 24px;
+      filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));
     }
 
     .guc-btn .sayi {
-      background: #ff6b35;
+      background: #ff1744;
       color: white;
-      border-radius: 10px;
+      border-radius: 12px;
       padding: 2px 8px;
       font-size: 13px;
       margin-left: 4px;
+      box-shadow: 0 2px 4px rgba(255, 23, 68, 0.5);
+      border: 2px solid white;
     }
 
-    /* Küçük bilgi notu (dekoratif olduğunu belirtmek için) */
     .not {
-      margin-top: 14px;
+      margin-top: 12px;
       font-size: 13px;
-      color: #8d5875;
+      color: rgba(255, 255, 255, 0.9);
       text-align: center;
-      opacity: 0.7;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+      z-index: 5;
+      position: relative;
+    }
+
+    /* Ekran sarsıntısı — büyük combo anında */
+    .sarsil { animation: sarsil 0.35s ease-in-out; }
+    @keyframes sarsil {
+      0%, 100% { transform: translate(0, 0); }
+      20% { transform: translate(-6px, 3px); }
+      40% { transform: translate(6px, -3px); }
+      60% { transform: translate(-5px, 4px); }
+      80% { transform: translate(5px, -2px); }
     }
   </style>
 </head>
 <body>
 
-  <h1 class="baslik">🍰 Pasta Şefi'nin Yükselişi</h1>
+  <!-- Arka plan parçacıkları (JS ile doldurulacak) -->
+  <div id="parcaciklarKatmani"></div>
 
-  <!-- Üst bilgi çubuğu: altın ve hedef -->
+  <h1 class="baslik">🍰 Pasta Şefi 🍰</h1>
+
   <div class="ust-cubuk">
     <div class="altin-kutu">
-      🪙 <span class="altin-sayi" id="altinSayi">0</span>
+      <span class="emoji-buyuk">🪙</span>
+      <span class="altin-sayi" id="altinSayi">0</span>
     </div>
     <div class="hedef-kutu">
-      <span class="bolum">Bölüm 1</span>
+      <span class="bolum">✨ Bölüm 1 ✨</span>
       <span id="hedefMetni">Hedef: 30 🍰 topla</span>
     </div>
   </div>
 
-  <!-- Oyun tahtası -->
   <div class="tahta-kapsa">
-    <div class="tahta" id="tahta"></div>
+    <div class="tahta-ic">
+      <div class="tahta" id="tahta"></div>
+    </div>
   </div>
 
-  <!-- Alt güçler (şimdilik dekoratif) -->
   <div class="gucler">
-    <button class="guc-btn" title="Yakında aktif olacak">
-      <span class="emoji">🔨</span> Çekiç <span class="sayi">2</span>
-    </button>
-    <button class="guc-btn" title="Yakında aktif olacak">
-      <span class="emoji">🔀</span> Karıştır <span class="sayi">1</span>
-    </button>
-    <button class="guc-btn" title="Yakında aktif olacak">
-      <span class="emoji">💣</span> Bomba <span class="sayi">1</span>
-    </button>
+    <button class="guc-btn"><span class="emoji">🔨</span> Çekiç <span class="sayi">2</span></button>
+    <button class="guc-btn"><span class="emoji">🔀</span> Karıştır <span class="sayi">1</span></button>
+    <button class="guc-btn"><span class="emoji">💣</span> Bomba <span class="sayi">1</span></button>
   </div>
 
-  <p class="not">💡 İki komşu tatlıyı değiştir, 3 veya daha fazlasını yan yana getir → altın kazan!</p>
+  <p class="not">💡 Komşu iki tatlıyı değiştir, 3 veya daha fazlasını yan yana getir!</p>
 
-  <!-- Combo popup (JS ile gösterilecek) -->
   <div class="combo-popup" id="comboPopup"></div>
 
   <script>
     // ==========================================================
-    // PASTA ŞEFİ'NİN YÜKSELİŞİ — v0.1 Prototip
-    // Temel match-3 mantığı. Vanilla JavaScript.
+    // PASTA ŞEFİ'NİN YÜKSELİŞİ — v0.1.1 Zengin Arayüz
     // ==========================================================
 
-    // --- Sabitler ---
-    const BOYUT = 8;                                   // 8x8 tahta
-    const TATLILAR = ['🍰', '🍪', '🍓', '🍫', '🍦', '🍭']; // 6 farklı tatlı
-    const HEDEF_TATLI = '🍰';                          // Bölüm 1 hedefi: kek
-    const HEDEF_SAYI = 30;                             // 30 tane kek topla
-    const PUAN_BASINA_ALTIN = 10;                      // Her patlama = 10 altın
+    const BOYUT = 8;
+    const TATLILAR = ['🍰', '🍪', '🍓', '🍫', '🍦', '🍭'];
+    const HEDEF_TATLI = '🍰';
+    const HEDEF_SAYI = 30;
+    const PUAN_BASINA_ALTIN = 10;
 
-    // --- Durum değişkenleri ---
-    let tahta = [];              // 2B dizi: tahta[satir][sutun] = emoji
-    let secili = null;           // Şu an seçili hücre {s, st} veya null
-    let altin = 0;               // Toplam kazanılan altın
-    let toplananHedef = 0;       // Hedef tatlıdan kaç tane toplandı
-    let meşgul = false;          // Animasyon/patlama sırasında tıklamayı engelle
-    let comboSayaci = 0;         // Zincirleme combo sayısı
+    let tahta = [];
+    let secili = null;
+    let altin = 0;
+    let toplananHedef = 0;
+    let meşgul = false;
+    let comboSayaci = 0;
 
-    // --- DOM referansları ---
     const tahtaEl = document.getElementById('tahta');
     const altinEl = document.getElementById('altinSayi');
     const hedefMetniEl = document.getElementById('hedefMetni');
     const comboPopup = document.getElementById('comboPopup');
 
     // ==========================================================
-    // BAŞLANGIÇ: Tahtayı doldur (başlangıçta eşleşme olmamalı)
+    // ARKA PLAN PARÇACIKLARI (yağan kalpler, yıldızlar)
+    // ==========================================================
+    function parcaciklariBaslat() {
+      const katman = document.getElementById('parcaciklarKatmani');
+      const semboller = ['💖', '⭐', '✨', '🍬', '🌟', '💫'];
+      for (let i = 0; i < 18; i++) {
+        const p = document.createElement('div');
+        p.className = 'parcacik';
+        p.textContent = semboller[Math.floor(Math.random() * semboller.length)];
+        p.style.left = (Math.random() * 100) + '%';
+        p.style.animationDuration = (8 + Math.random() * 10) + 's';
+        p.style.animationDelay = (Math.random() * 12) + 's';
+        p.style.fontSize = (16 + Math.random() * 18) + 'px';
+        p.style.color = ['#ff69b4', '#ffd700', '#ff1493', '#9c27b0', '#00bcd4'][Math.floor(Math.random() * 5)];
+        katman.appendChild(p);
+      }
+    }
+
+    // ==========================================================
+    // BAŞLANGIÇ TAHTASI
     // ==========================================================
     function tahtaOlustur() {
       tahta = [];
@@ -352,14 +556,11 @@
       }
     }
 
-    // Yeni bir tatlı seç — eklendiğinde 3'lü eşleşme yapmayacak olanı
     function rastgeleTatli(s, st, suAnkiSatir) {
       const yasak = new Set();
-      // Yatay 2'li kontrol: aynı satırda son 2 tatlı aynıysa 3'üncü farklı olmalı
       if (st >= 2 && suAnkiSatir[st - 1] === suAnkiSatir[st - 2]) {
         yasak.add(suAnkiSatir[st - 1]);
       }
-      // Dikey 2'li kontrol: aynı sütunda üstte 2 tatlı aynıysa bu farklı olmalı
       if (s >= 2 && tahta[s - 1][st] === tahta[s - 2][st]) {
         yasak.add(tahta[s - 1][st]);
       }
@@ -368,7 +569,7 @@
     }
 
     // ==========================================================
-    // GÖRSELLEŞTİRME: DOM'a tahtayı yansıt
+    // ÇİZ
     // ==========================================================
     function cizdir() {
       tahtaEl.innerHTML = '';
@@ -378,7 +579,12 @@
           h.className = 'hucre';
           h.dataset.s = s;
           h.dataset.st = st;
-          h.textContent = tahta[s][st];
+          h.dataset.tatli = tahta[s][st];
+
+          const icerik = document.createElement('span');
+          icerik.textContent = tahta[s][st];
+          h.appendChild(icerik);
+
           if (secili && secili.s === s && secili.st === st) {
             h.classList.add('secili');
           }
@@ -393,35 +599,30 @@
     }
 
     // ==========================================================
-    // KULLANICI ETKİLEŞİMİ: hücreye tıklama
+    // TIKLAMA
     // ==========================================================
     function hucreyeTiklandi(s, st) {
       if (meşgul) return;
 
       if (!secili) {
-        // Henüz seçim yok → bu hücreyi seç
         secili = { s, st };
         cizdir();
         return;
       }
 
-      // Aynı hücreye tekrar tıklandı → seçimi iptal et
       if (secili.s === s && secili.st === st) {
         secili = null;
         cizdir();
         return;
       }
 
-      // Komşu mu? (sadece yatay/dikey komşu geçerli)
       const komsu = (Math.abs(secili.s - s) + Math.abs(secili.st - st)) === 1;
       if (!komsu) {
-        // Komşu değilse, yeni hücreyi seç
         secili = { s, st };
         cizdir();
         return;
       }
 
-      // Komşu → yer değiştirmeyi dene
       const a = { ...secili };
       const b = { s, st };
       secili = null;
@@ -429,27 +630,23 @@
     }
 
     // ==========================================================
-    // YER DEĞİŞTİRME + EŞLEŞME KONTROLÜ
+    // YER DEĞİŞTİRME + KONTROL
     // ==========================================================
     async function yerDegistirVeKontrolEt(a, b) {
       meşgul = true;
       degistir(a, b);
       cizdir();
-
-      // Küçük bir gecikme — kullanıcı hareketi görsün
-      await bekle(180);
+      await bekle(200);
 
       const eslesmeler = eslesmeleriBul();
       if (eslesmeler.length === 0) {
-        // Geçersiz hamle — geri al
         degistir(a, b);
         cizdir();
-        await bekle(180);
+        await bekle(200);
         meşgul = false;
         return;
       }
 
-      // Zincirleme patlama döngüsü
       comboSayaci = 0;
       await patlamaZinciri();
       meşgul = false;
@@ -462,12 +659,11 @@
     }
 
     // ==========================================================
-    // EŞLEŞME BUL: 3 veya daha fazla aynı tatlı yan yana / alt alta
+    // EŞLEŞME BUL
     // ==========================================================
     function eslesmeleriBul() {
       const isaretli = Array.from({ length: BOYUT }, () => new Array(BOYUT).fill(false));
 
-      // Yatay taramalar
       for (let s = 0; s < BOYUT; s++) {
         let baslangic = 0;
         while (baslangic < BOYUT) {
@@ -481,7 +677,6 @@
         }
       }
 
-      // Dikey taramalar
       for (let st = 0; st < BOYUT; st++) {
         let baslangic = 0;
         while (baslangic < BOYUT) {
@@ -495,7 +690,6 @@
         }
       }
 
-      // İşaretli hücrelerin listesini döndür
       const sonuc = [];
       for (let s = 0; s < BOYUT; s++) {
         for (let st = 0; st < BOYUT; st++) {
@@ -506,7 +700,7 @@
     }
 
     // ==========================================================
-    // PATLAMA ZİNCİRİ: patla → yerçekimi → yenileri doğur → tekrar kontrol
+    // PATLAMA ZİNCİRİ
     // ==========================================================
     async function patlamaZinciri() {
       while (true) {
@@ -516,46 +710,62 @@
         comboSayaci++;
         if (comboSayaci >= 2) {
           comboGoster(comboSayaci);
+          if (comboSayaci >= 3) sarsilEkrani();
         }
 
-        // 1) Patlama animasyonu
+        // Patlama animasyonu + parçacık efekti
         eslesmeler.forEach(({ s, st, emoji }) => {
           const el = hucreEl(s, st);
-          if (el) el.classList.add('patliyor');
-          // Hedef tatlı toplandıysa say
+          if (el) {
+            el.classList.add('patliyor');
+            patlamaParcaciklari(el, emoji);
+          }
           if (emoji === HEDEF_TATLI) toplananHedef++;
         });
 
-        // 2) Altın ekle (sayaç animasyonlu)
-        const kazanilan = eslesmeler.length * PUAN_BASINA_ALTIN * comboSayaci; // combo çarpanı
+        const kazanilan = eslesmeler.length * PUAN_BASINA_ALTIN * comboSayaci;
         altinEkle(kazanilan);
         hedefGuncelle();
 
-        await bekle(350); // patlama animasyonu bitene kadar
+        await bekle(450);
 
-        // 3) Patlayanları sil
         eslesmeler.forEach(({ s, st }) => {
           tahta[s][st] = null;
         });
 
-        // 4) Yerçekimi: yukarıdakiler aşağı düşer, boş kalanlar yenilenir
         yercekimi();
-
-        // 5) Yeniden çiz (yeni doğanlar için animasyon)
         cizdir();
-        // Yeni doğan hücrelere "dogdu" efekti ekle
+
         tahtaEl.querySelectorAll('.hucre').forEach(el => {
           el.classList.add('dogdu');
-          setTimeout(() => el.classList.remove('dogdu'), 300);
+          setTimeout(() => el.classList.remove('dogdu'), 450);
         });
 
-        await bekle(300);
+        await bekle(350);
+      }
+    }
+
+    // Patlayan hücreden 6 yönde parçacık uç
+    function patlamaParcaciklari(el, emoji) {
+      const rect = el.getBoundingClientRect();
+      for (let i = 0; i < 6; i++) {
+        const p = document.createElement('div');
+        p.className = 'patlama-parcacik';
+        p.textContent = emoji;
+        p.style.left = (rect.left + rect.width / 2) + 'px';
+        p.style.top = (rect.top + rect.height / 2) + 'px';
+        const aci = (Math.PI * 2 * i) / 6 + Math.random() * 0.5;
+        const mesafe = 60 + Math.random() * 40;
+        p.style.setProperty('--dx', Math.cos(aci) * mesafe + 'px');
+        p.style.setProperty('--dy', Math.sin(aci) * mesafe + 'px');
+        p.style.fontSize = (16 + Math.random() * 10) + 'px';
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 850);
       }
     }
 
     function yercekimi() {
       for (let st = 0; st < BOYUT; st++) {
-        // Aşağıdan yukarı tarayıp boşlukları kapa
         let yazmaSatiri = BOYUT - 1;
         for (let s = BOYUT - 1; s >= 0; s--) {
           if (tahta[s][st] !== null) {
@@ -564,7 +774,6 @@
             yazmaSatiri--;
           }
         }
-        // Kalan boşlukları yeni tatlılarla doldur
         for (let s = yazmaSatiri; s >= 0; s--) {
           tahta[s][st] = TATLILAR[Math.floor(Math.random() * TATLILAR.length)];
         }
@@ -578,13 +787,12 @@
       altin += miktar;
       altinEl.textContent = altin;
       altinEl.classList.add('ziplama');
-      setTimeout(() => altinEl.classList.remove('ziplama'), 200);
+      setTimeout(() => altinEl.classList.remove('ziplama'), 220);
     }
 
     function hedefGuncelle() {
       if (toplananHedef >= HEDEF_SAYI) {
-        hedefMetniEl.textContent = '🎉 Bölüm tamamlandı!';
-        hedefMetniEl.style.color = '#2e7d32';
+        hedefMetniEl.textContent = '🎉 BÖLÜM TAMAMLANDI! 🎉';
       } else {
         hedefMetniEl.textContent = `Hedef: ${toplananHedef} / ${HEDEF_SAYI} ${HEDEF_TATLI} topla`;
       }
@@ -592,15 +800,20 @@
 
     function comboGoster(sayi) {
       const metinler = {
-        2: '✨ x2 GÜZEL!',
-        3: '🔥 x3 SÜPER!',
-        4: '⭐ x4 HARİKA!',
-        5: '💥 x5 EFSANE!'
+        2: '✨ GÜZEL ✨',
+        3: '🔥 SÜPER 🔥',
+        4: '⭐ HARİKA ⭐',
+        5: '💥 EFSANE 💥'
       };
-      comboPopup.textContent = metinler[sayi] || `🌟 x${sayi} İNANILMAZ!`;
+      comboPopup.textContent = metinler[sayi] || `🌟 İNANILMAZ 🌟`;
       comboPopup.classList.remove('goster');
-      void comboPopup.offsetWidth; // animasyonu yeniden tetikle
+      void comboPopup.offsetWidth;
       comboPopup.classList.add('goster');
+    }
+
+    function sarsilEkrani() {
+      document.body.classList.add('sarsil');
+      setTimeout(() => document.body.classList.remove('sarsil'), 380);
     }
 
     // ==========================================================
@@ -613,6 +826,7 @@
     // ==========================================================
     // BAŞLAT
     // ==========================================================
+    parcaciklariBaslat();
     tahtaOlustur();
     cizdir();
     hedefGuncelle();
